@@ -1,4 +1,4 @@
-﻿/* Refresh - C# bindings for the Refresh graphics Library
+﻿/* RefreshCS - C# bindings for the Refresh graphics Library
  *
  * Copyright (c) 2020 Evan Hemsley
  *
