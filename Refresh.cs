@@ -841,24 +841,179 @@ namespace RefreshSharp
 
         /* Disposal */
 
-        
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Refresh_QueueDestroyTexture(
+            IntPtr device,
+            IntPtr texture
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Refresh_QueueDestroySampler(
+            IntPtr device,
+            IntPtr sampler
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Refresh_QueueDestroyBuffer(
+            IntPtr device,
+            IntPtr buffer
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Refresh_QueueDestroyColorTarget(
+            IntPtr device,
+            IntPtr colorTarget
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Refresh_QueueDestroyDepthStencilTarget(
+            IntPtr device,
+            IntPtr depthStencilTarget
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Refresh_QueueDestroyFramebuffer(
+            IntPtr device,
+            IntPtr framebuffer
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Refresh_QueueDestroyRenderPass(
+            IntPtr device,
+            IntPtr renderPass
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Refresh_QueueDestroyComputePipeline(
+            IntPtr device,
+            IntPtr computePipeline
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Refresh_QueueDestroyGraphicsPipeline(
+            IntPtr device,
+            IntPtr graphicsPipeline
+        );
 
         /* Graphics State */
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Refresh_BeginRenderPass(
+            IntPtr device,
+            IntPtr commandBuffer,
+            IntPtr renderPass,
+            IntPtr framebuffer,
+            Rect renderArea,
+            Color[] pColorClearValues,
+            uint colorClearCount,
+            ref DepthStencilValue depthStencilClearValue
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Refresh_EndRenderPass(
+            IntPtr device,
+            IntPtr commandBuffer
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Refresh_BindGraphicsPipeline(
+            IntPtr device,
+            IntPtr commandBuffer,
+            IntPtr graphicsPipeline
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Refresh_BindVertexBuffer(
+            IntPtr device,
+            IntPtr commandBuffer,
+            uint firstBinding,
+            uint bindingCount,
+            IntPtr[] pBuffers,
+            UInt64[] pOffsets
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Refresh_BindIndexBuffer(
+            IntPtr device,
+            IntPtr commandBuffer,
+            IntPtr buffer,
+            uint offset,
+            IndexElementSize indexElementSize
+        );
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void Refresh_BindVertexSamplers(
             IntPtr device,
             IntPtr commandBuffer,
-            ref IntPtr[] pTextures,
-            ref IntPtr[] pSamplers
+            IntPtr[] pTextures,
+            IntPtr[] pSamplers
         );
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void Refresh_BindFragmentSamplers(
             IntPtr device,
             IntPtr commandBuffer,
-            ref IntPtr[] pTextures,
-            ref IntPtr[] pSamplers
+            IntPtr[] pTextures,
+            IntPtr[] pSamplers
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Refresh_BindComputePipeline(
+            IntPtr device,
+            IntPtr commandBuffer,
+            IntPtr computePipeline
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Refresh_BindComputeBuffers(
+            IntPtr device,
+            IntPtr commandBuffer,
+            IntPtr[] pBuffers
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Refresh_BindComputeTextures(
+            IntPtr device,
+            IntPtr commandBuffer,
+            IntPtr[] pTextures
+        );
+
+        /* Submission/Presentation */
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr Refresh_AcquireCommandBuffer(
+            IntPtr device,
+            byte isFixed
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Refresh_QueuePresent(
+            IntPtr device,
+            IntPtr commandBuffer,
+            ref TextureSlice textureSlice,
+            ref Rect destinationRectangle,
+            Filter filter
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Refresh_QueuePresent(
+            IntPtr device,
+            IntPtr commandBuffer,
+            ref TextureSlice textureSlice,
+            IntPtr destinationRectangle, /* null Rect */
+            Filter filter
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Refresh_Submit(
+            IntPtr device,
+            uint commandBufferCount,
+            IntPtr[] pCommandBuffers
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Refresh_Wait(
+            IntPtr device
         );
     }
 }
