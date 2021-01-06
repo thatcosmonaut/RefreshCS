@@ -764,5 +764,101 @@ namespace RefreshSharp
             uint usageFlags, /* BufferUsageFlagBits */
             uint sizeInBytes
         );
+
+        /* Setters */
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Refresh_SetTextureData(
+            IntPtr device,
+            ref TextureSlice textureSlice,
+            IntPtr data,
+            uint dataLengthInBytes
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Refresh_SetTextureDataYUV(
+            IntPtr device,
+            IntPtr y,
+            IntPtr u,
+            IntPtr v,
+            uint yWidth,
+            uint yHeight,
+            uint uvWidth,
+            uint uvHeight,
+            IntPtr data,
+            uint dataLength
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Refresh_CopyTextureToTexture(
+            IntPtr device,
+            IntPtr commandBuffer,
+            ref TextureSlice sourceTextureSlice,
+            ref TextureSlice destinationTextureSlice,
+            Filter filter
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Refresh_CopyTextureToBuffer(
+            IntPtr device,
+            IntPtr commandBuffer,
+            ref TextureSlice textureSlice,
+            IntPtr buffer
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Refresh_SetBufferData(
+            IntPtr device,
+            IntPtr buffer,
+            uint offsetInBytes,
+            IntPtr data,
+            uint dataLength
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern uint Refresh_PushVertexShaderParams(
+            IntPtr device,
+            IntPtr commandBuffer,
+            IntPtr data,
+            uint paramBlockCount
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern uint Refresh_PushFragmentShaderParams(
+            IntPtr device,
+            IntPtr commandBuffer,
+            IntPtr data,
+            uint paramBlockCount
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern uint Refresh_PushComputeShaderParams(
+            IntPtr device,
+            IntPtr commandBuffer,
+            IntPtr data,
+            uint paramBlockCount
+        );
+
+        /* Disposal */
+
+        
+
+        /* Graphics State */
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Refresh_BindVertexSamplers(
+            IntPtr device,
+            IntPtr commandBuffer,
+            ref IntPtr[] pTextures,
+            ref IntPtr[] pSamplers
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Refresh_BindFragmentSamplers(
+            IntPtr device,
+            IntPtr commandBuffer,
+            ref IntPtr[] pTextures,
+            ref IntPtr[] pSamplers
+        );
     }
 }
