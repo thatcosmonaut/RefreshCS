@@ -421,5 +421,170 @@ namespace RefreshSharp
             public uint writeMask;
             public uint reference;
         }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct ColorTargetBlendState
+        {
+            public byte blendEnable;
+            public BlendFactor sourceColorBlendFactor;
+            public BlendFactor destinationColorBlendFactor;
+            public BlendOp colorBlendOp;
+            public BlendFactor sourceAlphaBlendFactor;
+            public BlendFactor destinationAlphaBlendFactor;
+            public BlendOp alphaBlendOp;
+            public uint colorWriteMask;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct ComputePipelineLayoutCreateInfo
+        {
+            public uint bufferBindingCount;
+            public uint imageBindingCount;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct GraphicsPipelineLayoutCreateInfo
+        {
+            public uint vertexSamplerBindingCount;
+            public uint fragmentSamplerBindingCount;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct ColorTargetDescription
+        {
+            public ColorFormat format;
+            public SampleCount multisampleCount;
+            public LoadOp loadOp;
+            public StoreOp storeOp;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct DepthStencilTargetDescription
+        {
+            public DepthFormat depthFormat;
+            public LoadOp loadOp;
+            public StoreOp storeOp;
+            public LoadOp stencilLoadOp;
+            public StoreOp stencilStoreOp;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public unsafe struct RenderPassCreateInfo
+        {
+            public ColorTargetDescription* colorTargetDescriptions;
+            public uint colorTargetCount;
+            public DepthStencilTargetDescription* depthStencilTargetDescription;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public unsafe struct ShaderModuleCreateInfo
+        {
+            public UIntPtr codeSize; /* size_t */
+            public uint* byteCode;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public unsafe struct ShaderStageStage
+        {
+            public IntPtr shaderModule;
+            [MarshalAs(UnmanagedType.LPStr)]
+            public string entryPointName;
+            public UInt64 uniformBufferSize;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct TopologyState
+        {
+            public PrimitiveType topology;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public unsafe struct ViewportState
+        {
+            public Viewport* viewports;
+            public uint viewportCount;
+            public Rect* scissors;
+            public uint scissorCount;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct RasterizerState
+        {
+            public byte depthClampEnable;
+            public FillMode fillMode;
+            public CullMode cullMode;
+            public FrontFace frontFace;
+            public byte depthBiasEnable;
+            public float depthBiasConstantFactor;
+            public float depthBiasClamp;
+            public float depthBiasSlopeFactor;
+            public float lineWidth;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct MultisampleState
+        {
+            public SampleCount multisampleCount;
+            public uint sampleMask;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct DepthStencilState
+        {
+            public byte depthTestEnable;
+            public byte depthWriteEnable;
+            public CompareOp compareOp;
+            public byte depthBoundsTestEnable;
+            public byte stencilTestEnable;
+            public StencilOpState frontStencilState;
+            public StencilOpState backStencilState;
+            public float minDepthBounds;
+            public float maxDepthBounds;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public unsafe struct ColorBlendState
+        {
+            public byte logicOpEnable;
+            public LogicOp logicOp;
+            public ColorTargetBlendState* blendStates;
+            public uint blendStateCount;
+            [MarshalAs(UnmanagedType.LPArray, SizeConst = 4)]
+            public float[] blendConstants;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct ComputePipelineCreateInfo
+        {
+            ShaderStageStage computeShaderState;
+            ComputePipelineLayoutCreateInfo pipelineLayoutCreateInfo;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct GraphicsPipelineCreateInfo
+        {
+            public ShaderStageStage vertexShaderState;
+            public ShaderStageStage fragmentShaderStage;
+            public VertexInputState vertexInputState;
+            public TopologyState topologyState;
+            public ViewportState viewportState;
+            public RasterizerState rasterizerStage;
+            public MultisampleState multisampleState;
+            public DepthStencilState depthStencilState;
+            public ColorBlendState colorBlendState;
+            public GraphicsPipelineLayoutCreateInfo pipelineLayoutCreateInfo;
+            public IntPtr renderPass;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FramebufferCreateInfo
+        {
+            public IntPtr renderPass;
+            public IntPtr pColorTargets;
+            public uint colorTargetCount;
+            public IntPtr depthStencilTarget;
+            public uint width;
+            public uint height;
+        }
     }
 }
