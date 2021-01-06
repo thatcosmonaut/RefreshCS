@@ -137,6 +137,13 @@ namespace RefreshCS
             NegativeZ
         }
 
+        public enum BufferUsageFlagBits
+        {
+            Vertex = 1,
+            Index = 2,
+            Compute = 4
+        }
+
         public enum VertexElementFormat
         {
             Single,
@@ -402,11 +409,11 @@ namespace RefreshCS
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        public unsafe struct VertexInputState
+        public struct VertexInputState
         {
-            public VertexBinding* vertexBindings;
+            public IntPtr vertexBindings;
             public uint vertexBindingCount;
-            public VertexAttribute* vertexAttributes;
+            public IntPtr vertexAttributes;
             public uint vertexAttributeCount;
         }
 
@@ -469,22 +476,22 @@ namespace RefreshCS
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        public unsafe struct RenderPassCreateInfo
+        public struct RenderPassCreateInfo
         {
-            public ColorTargetDescription* colorTargetDescriptions;
+            public IntPtr colorTargetDescriptions; /* Refresh_ColorTargetDescription */
             public uint colorTargetCount;
-            public DepthStencilTargetDescription* depthStencilTargetDescription;
+            public IntPtr depthStencilTargetDescription;
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        public unsafe struct ShaderModuleCreateInfo
+        public struct ShaderModuleCreateInfo
         {
             public UIntPtr codeSize; /* size_t */
-            public uint* byteCode;
+            public IntPtr byteCode;
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        public unsafe struct ShaderStageStage
+        public struct ShaderStageState
         {
             public IntPtr shaderModule;
             [MarshalAs(UnmanagedType.LPStr)]
@@ -499,11 +506,11 @@ namespace RefreshCS
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        public unsafe struct ViewportState
+        public struct ViewportState
         {
-            public Viewport* viewports;
+            public IntPtr viewports;
             public uint viewportCount;
-            public Rect* scissors;
+            public IntPtr scissors;
             public uint scissorCount;
         }
 
@@ -543,32 +550,31 @@ namespace RefreshCS
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        public unsafe struct ColorBlendState
+        public struct ColorBlendState
         {
             public byte logicOpEnable;
             public LogicOp logicOp;
-            public ColorTargetBlendState* blendStates;
+            public IntPtr blendStates;
             public uint blendStateCount;
-            [MarshalAs(UnmanagedType.LPArray, SizeConst = 4)]
-            public float[] blendConstants;
+            public IntPtr blendConstants;
         }
 
         [StructLayout(LayoutKind.Sequential)]
         public struct ComputePipelineCreateInfo
         {
-            ShaderStageStage computeShaderState;
+            ShaderStageState computeShaderState;
             ComputePipelineLayoutCreateInfo pipelineLayoutCreateInfo;
         }
 
         [StructLayout(LayoutKind.Sequential)]
         public struct GraphicsPipelineCreateInfo
         {
-            public ShaderStageStage vertexShaderState;
-            public ShaderStageStage fragmentShaderStage;
+            public ShaderStageState vertexShaderState;
+            public ShaderStageState fragmentShaderStage;
             public VertexInputState vertexInputState;
             public TopologyState topologyState;
             public ViewportState viewportState;
-            public RasterizerState rasterizerStage;
+            public RasterizerState rasterizerState;
             public MultisampleState multisampleState;
             public DepthStencilState depthStencilState;
             public ColorBlendState colorBlendState;
@@ -580,7 +586,7 @@ namespace RefreshCS
         public struct FramebufferCreateInfo
         {
             public IntPtr renderPass;
-            public IntPtr[] pColorTargets;
+            public IntPtr pColorTargets;
             public uint colorTargetCount;
             public IntPtr depthStencilTarget;
             public uint width;
@@ -904,7 +910,7 @@ namespace RefreshCS
             IntPtr renderPass,
             IntPtr framebuffer,
             Rect renderArea,
-            Color[] pColorClearValues,
+            IntPtr pColorClearValues,
             uint colorClearCount,
             ref DepthStencilValue depthStencilClearValue
         );
@@ -923,7 +929,7 @@ namespace RefreshCS
         );
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void Refresh_BindVertexBuffer(
+        public static extern void Refresh_BindVertexBuffers(
             IntPtr device,
             IntPtr commandBuffer,
             uint firstBinding,
@@ -1014,6 +1020,27 @@ namespace RefreshCS
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void Refresh_Wait(
             IntPtr device
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr Refresh_Image_Load(
+            [MarshalAs(UnmanagedType.LPStr)] string filename,
+            out int width,
+            out int height,
+            out int numChannels
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Refresh_Image_Free(
+            IntPtr mem
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Refresh_Image_SavePNG(
+            [MarshalAs(UnmanagedType.LPStr)] string filename,
+            int w,
+            int h,
+            IntPtr data
         );
     }
 }
