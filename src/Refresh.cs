@@ -28,7 +28,7 @@ using System;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace RefreshSharp
+namespace RefreshCS
 {
     public static class Refresh
     {
@@ -626,7 +626,7 @@ namespace RefreshSharp
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void Refresh_DrawInstancedPrimitives(
-            IntPtr device, 
+            IntPtr device,
             IntPtr commandBuffer,
             uint baseVertex,
             uint minVertexIndex,
