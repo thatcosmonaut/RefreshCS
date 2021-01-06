@@ -5,6 +5,7 @@
     <RootNamespace>RefreshCS</RootNamespace>
     <Platform>x64</Platform>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Platforms>x64</Platforms>
   </PropertyGroup>
 
 </Project>

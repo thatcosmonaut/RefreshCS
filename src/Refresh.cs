@@ -550,13 +550,13 @@ namespace RefreshCS
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        public struct ColorBlendState
+        public unsafe struct ColorBlendState
         {
             public byte logicOpEnable;
             public LogicOp logicOp;
             public IntPtr blendStates;
             public uint blendStateCount;
-            public IntPtr blendConstants;
+            public fixed float blendConstants[4];
         }
 
         [StructLayout(LayoutKind.Sequential)]
@@ -934,8 +934,8 @@ namespace RefreshCS
             IntPtr commandBuffer,
             uint firstBinding,
             uint bindingCount,
-            IntPtr[] pBuffers,
-            UInt64[] pOffsets
+            IntPtr pBuffers,
+            IntPtr pOffsets
         );
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -951,16 +951,16 @@ namespace RefreshCS
         public static extern void Refresh_BindVertexSamplers(
             IntPtr device,
             IntPtr commandBuffer,
-            IntPtr[] pTextures,
-            IntPtr[] pSamplers
+            IntPtr pTextures,
+            IntPtr pSamplers
         );
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void Refresh_BindFragmentSamplers(
             IntPtr device,
             IntPtr commandBuffer,
-            IntPtr[] pTextures,
-            IntPtr[] pSamplers
+            IntPtr pTextures,
+            IntPtr pSamplers
         );
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -974,14 +974,14 @@ namespace RefreshCS
         public static extern void Refresh_BindComputeBuffers(
             IntPtr device,
             IntPtr commandBuffer,
-            IntPtr[] pBuffers
+            IntPtr pBuffers
         );
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void Refresh_BindComputeTextures(
             IntPtr device,
             IntPtr commandBuffer,
-            IntPtr[] pTextures
+            IntPtr pTextures
         );
 
         /* Submission/Presentation */
@@ -1014,7 +1014,7 @@ namespace RefreshCS
         public static extern void Refresh_Submit(
             IntPtr device,
             uint commandBufferCount,
-            IntPtr[] pCommandBuffers
+            IntPtr pCommandBuffers
         );
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
