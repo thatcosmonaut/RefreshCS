@@ -66,7 +66,7 @@ namespace RefreshSharp
             DontCare
         }
 
-        public enum ClearOptions
+        public enum ClearOptionsBits
         {
             Color = 1,
             Depth = 2,
@@ -580,11 +580,99 @@ namespace RefreshSharp
         public struct FramebufferCreateInfo
         {
             public IntPtr renderPass;
-            public IntPtr pColorTargets;
+            public IntPtr[] pColorTargets;
             public uint colorTargetCount;
             public IntPtr depthStencilTarget;
             public uint width;
             public uint height;
         }
+
+        /* Logging */
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void Refresh_LogFunc(IntPtr msg);
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Refresh_HookLogFunctions(
+            Refresh_LogFunc info,
+            Refresh_LogFunc warn,
+            Refresh_LogFunc error
+        );
+
+        /* Init/Quit */
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr Refresh_CreateDevice(
+            ref PresentationParameters presentationParameters,
+            byte debugMode
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Refresh_DestroyDevice(IntPtr device);
+
+        /* Drawing */
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Refresh_Clear(
+            IntPtr device,
+            IntPtr commandBuffer,
+            ref Rect clearRect,
+            uint clearOptions,
+            ref Color[] colors,
+            uint colorCount,
+            float depth,
+            int stencil
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Refresh_DrawInstancedPrimitives(
+            IntPtr device, 
+            IntPtr commandBuffer,
+            uint baseVertex,
+            uint minVertexIndex,
+            uint numVertices,
+            uint startIndex,
+            uint primitiveCount,
+            uint instanceCount,
+            IntPtr indices, /* Refresh_Buffer */
+            IndexElementSize indexElementSize,
+            uint vertexParamOffset,
+            uint fragmentParamOffset
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Refresh_DrawIndexedPrimitives(
+            IntPtr device,
+            IntPtr commandBuffer,
+            uint baseverrtex,
+            uint minVertexIndex,
+            uint numVertices,
+            uint startIndex,
+            uint primitiveCount,
+            IntPtr indices, /* Refresh_Buffer */
+            IndexElementSize indexElementSize,
+            uint vertexParamOffset,
+            uint fragmentParamOffset
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Refresh_DrawPrimitives(
+            IntPtr device,
+            IntPtr commandBuffer,
+            uint vertexStart,
+            uint primitiveCount,
+            uint vertexParamOffset,
+            uint fragmentParamOffset
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Refresh_DispatchCompute(
+            IntPtr device,
+            IntPtr commandBuffer,
+            uint groupCountX,
+            uint groupCountY,
+            uint groupCountZ,
+            uint computeParamOffset
+        );
     }
 }
