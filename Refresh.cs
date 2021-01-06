@@ -674,5 +674,95 @@ namespace RefreshSharp
             uint groupCountZ,
             uint computeParamOffset
         );
+
+        /* Creates */
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr Refresh_CreateRenderPass(
+            IntPtr device,
+            ref RenderPassCreateInfo renderPassCreateInfo
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr Refresh_CreateComputePipeline(
+            IntPtr device,
+            ref ComputePipelineCreateInfo computePipelineCreateInfo
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr Refresh_CreateGraphicsPipeline(
+            IntPtr device,
+            ref GraphicsPipelineCreateInfo graphicsPipelineCreateInfo
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr Refresh_CreateSampler(
+            IntPtr device,
+            ref SamplerStateCreateInfo samplerStateCreateInfo
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr Refresh_CreateFramebuffer(
+            IntPtr device,
+            ref FramebufferCreateInfo framebufferCreateInfo
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr Refresh_CreateShaderModule(
+            IntPtr device,
+            ref ShaderModuleCreateInfo shaderModuleCreateInfo
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr Refresh_CreateTexture2D(
+            IntPtr device,
+            ColorFormat format,
+            uint width,
+            uint height,
+            uint levelCount,
+            uint usageFlags /* TextureUsageFlagBits */
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr Refresh_CreateTexture3D(
+            IntPtr device,
+            ColorFormat format,
+            uint width,
+            uint height,
+            uint depth,
+            uint levelCount,
+            uint usageFlags /* TextureUsageFlagBits */
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr Refresh_CreateTextureCube(
+            IntPtr device,
+            ColorFormat format,
+            uint size,
+            uint levelCount,
+            uint usageFlags /* TextureUsageFlagBits */
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr Refresh_CreateColorTarget(
+            IntPtr device,
+            SampleCount multisampleCount,
+            ref TextureSlice textureSlice
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr Refresh_CreateDepthStencilTarget(
+            IntPtr device,
+            uint width,
+            uint height,
+            DepthFormat format
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr Refresh_CreateBuffer(
+            IntPtr device,
+            uint usageFlags, /* BufferUsageFlagBits */
+            uint sizeInBytes
+        );
     }
 }
