@@ -570,7 +570,7 @@ namespace RefreshCS
         public struct GraphicsPipelineCreateInfo
         {
             public ShaderStageState vertexShaderState;
-            public ShaderStageState fragmentShaderStage;
+            public ShaderStageState fragmentShaderState;
             public VertexInputState vertexInputState;
             public TopologyState topologyState;
             public ViewportState viewportState;
