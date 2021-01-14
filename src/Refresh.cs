@@ -870,6 +870,12 @@ namespace RefreshCS
         );
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Refresh_QueueDestroyShaderModule(
+            IntPtr device,
+            IntPtr shaderModule
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void Refresh_QueueDestroyRenderPass(
             IntPtr device,
             IntPtr renderPass
