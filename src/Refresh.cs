@@ -500,12 +500,6 @@ namespace RefreshCS
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        public struct TopologyState
-        {
-            public PrimitiveType topology;
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
         public struct ViewportState
         {
             public IntPtr viewports;
@@ -572,7 +566,7 @@ namespace RefreshCS
             public ShaderStageState vertexShaderState;
             public ShaderStageState fragmentShaderState;
             public VertexInputState vertexInputState;
-            public TopologyState topologyState;
+            public PrimitiveType primitiveType;
             public ViewportState viewportState;
             public RasterizerState rasterizerState;
             public MultisampleState multisampleState;
@@ -635,13 +629,9 @@ namespace RefreshCS
             IntPtr device,
             IntPtr commandBuffer,
             uint baseVertex,
-            uint minVertexIndex,
-            uint numVertices,
             uint startIndex,
             uint primitiveCount,
             uint instanceCount,
-            IntPtr indices, /* Refresh_Buffer */
-            IndexElementSize indexElementSize,
             uint vertexParamOffset,
             uint fragmentParamOffset
         );
@@ -650,13 +640,9 @@ namespace RefreshCS
         public static extern void Refresh_DrawIndexedPrimitives(
             IntPtr device,
             IntPtr commandBuffer,
-            uint baseverrtex,
-            uint minVertexIndex,
-            uint numVertices,
+            uint baseVertex,
             uint startIndex,
             uint primitiveCount,
-            IntPtr indices, /* Refresh_Buffer */
-            IndexElementSize indexElementSize,
             uint vertexParamOffset,
             uint fragmentParamOffset
         );
