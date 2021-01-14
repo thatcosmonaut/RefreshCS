@@ -493,14 +493,14 @@ namespace RefreshCS
         [StructLayout(LayoutKind.Sequential)]
         public struct TextureCreateInfo
         {
-            uint width;
-            uint height;
-            uint depth;
-            byte isCube;
-            SampleCount sampleCount;
-            uint levelCount;
-            ColorFormat format;
-            uint usageFlags; /* Refresh_TextureUsageFlags */
+            public uint width;
+            public uint height;
+            public uint depth;
+            public byte isCube;
+            public SampleCount sampleCount;
+            public uint levelCount;
+            public ColorFormat format;
+            public uint usageFlags; /* Refresh_TextureUsageFlags */
         }
 
         [StructLayout(LayoutKind.Sequential)]
