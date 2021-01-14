@@ -491,6 +491,19 @@ namespace RefreshCS
         }
 
         [StructLayout(LayoutKind.Sequential)]
+        public struct TextureCreateInfo
+        {
+            uint width;
+            uint height;
+            uint depth;
+            byte isCube;
+            SampleCount sampleCount;
+            uint levelCount;
+            ColorFormat format;
+            uint usageFlags; /* Refresh_TextureUsageFlags */
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
         public struct ShaderStageState
         {
             public IntPtr shaderModule;
@@ -706,33 +719,9 @@ namespace RefreshCS
         );
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr Refresh_CreateTexture2D(
+        public static extern IntPtr Refresh_CreateTexture(
             IntPtr device,
-            ColorFormat format,
-            uint width,
-            uint height,
-            uint levelCount,
-            uint usageFlags /* TextureUsageFlagBits */
-        );
-
-        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr Refresh_CreateTexture3D(
-            IntPtr device,
-            ColorFormat format,
-            uint width,
-            uint height,
-            uint depth,
-            uint levelCount,
-            uint usageFlags /* TextureUsageFlagBits */
-        );
-
-        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr Refresh_CreateTextureCube(
-            IntPtr device,
-            ColorFormat format,
-            uint size,
-            uint levelCount,
-            uint usageFlags /* TextureUsageFlagBits */
+            ref TextureCreateInfo textureCreateInfo
         );
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
