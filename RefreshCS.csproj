@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>RefreshCS</RootNamespace>
     <Platform>x64</Platform>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
