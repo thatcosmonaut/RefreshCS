@@ -897,6 +897,18 @@ namespace RefreshCS
         );
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Refresh_BeginRenderPass(
+            IntPtr device,
+            IntPtr commandBuffer,
+            IntPtr renderPass,
+            IntPtr framebuffer,
+            ref Rect renderArea,
+            IntPtr pColorClearValues,
+            uint colorClearCount,
+            IntPtr depthStencilClearValue /* NULL */
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void Refresh_EndRenderPass(
             IntPtr device,
             IntPtr commandBuffer
