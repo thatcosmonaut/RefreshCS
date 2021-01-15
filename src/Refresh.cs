@@ -890,7 +890,7 @@ namespace RefreshCS
             IntPtr commandBuffer,
             IntPtr renderPass,
             IntPtr framebuffer,
-            Rect renderArea,
+            ref Rect renderArea,
             IntPtr pColorClearValues,
             uint colorClearCount,
             ref DepthStencilValue depthStencilClearValue
