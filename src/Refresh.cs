@@ -110,7 +110,8 @@ namespace RefreshCS
             Depth32Stencil8
         }
 
-        public enum TextureUsageFlagBits
+        [Flags]
+        public enum TextureUsageFlags : uint
         {
             SamplerBit = 1,
             ColorTargetBit = 2
@@ -137,7 +138,8 @@ namespace RefreshCS
             NegativeZ
         }
 
-        public enum BufferUsageFlagBits
+        [Flags]
+        public enum BufferUsageFlags : uint
         {
             Vertex = 1,
             Index = 2,
@@ -263,12 +265,26 @@ namespace RefreshCS
             OneMinusSourceOneAlpha
         }
 
-        public enum ColorComponentFlagBits
+        [Flags]
+        public enum ColorComponentFlags : uint
         {
             R = 1,
             G = 2,
             B = 4,
-            A = 8
+            A = 8,
+
+            RG = R | G,
+            RB = R | B,
+            RA = R | A,
+            GB = G | B,
+            GA = G | A,
+            BA = B | A,
+
+            RGB = R | G | B,
+            RGA = R | G | A,
+            GBA = G | B | A,
+
+            RGBA = R | G | B | A
         }
 
         public enum ShaderStageType
@@ -439,7 +455,7 @@ namespace RefreshCS
             public BlendFactor sourceAlphaBlendFactor;
             public BlendFactor destinationAlphaBlendFactor;
             public BlendOp alphaBlendOp;
-            public uint colorWriteMask;
+            public ColorComponentFlags colorWriteMask;
         }
 
         [StructLayout(LayoutKind.Sequential)]
@@ -500,7 +516,7 @@ namespace RefreshCS
             public SampleCount sampleCount;
             public uint levelCount;
             public ColorFormat format;
-            public uint usageFlags; /* Refresh_TextureUsageFlags */
+            public TextureUsageFlags usageFlags; /* Refresh_TextureUsageFlags */
         }
 
         [StructLayout(LayoutKind.Sequential)]
@@ -509,7 +525,7 @@ namespace RefreshCS
             public IntPtr shaderModule;
             [MarshalAs(UnmanagedType.LPStr)]
             public string entryPointName;
-            public UInt64 uniformBufferSize;
+            public ulong uniformBufferSize;
         }
 
         [StructLayout(LayoutKind.Sequential)]
@@ -742,7 +758,7 @@ namespace RefreshCS
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr Refresh_CreateBuffer(
             IntPtr device,
-            uint usageFlags, /* BufferUsageFlagBits */
+            BufferUsageFlags usageFlags,
             uint sizeInBytes
         );
 
