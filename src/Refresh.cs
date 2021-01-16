@@ -66,11 +66,14 @@ namespace RefreshCS
             DontCare
         }
 
-        public enum ClearOptionsBits
+        [Flags]
+        public enum ClearOptionsFlags : uint
         {
             Color = 1,
             Depth = 2,
-            Stencil = 4
+            Stencil = 4,
+            DepthStencil = Depth | Stencil,
+            All = Color | Depth | Stencil
         }
 
         public enum IndexElementSize
@@ -585,8 +588,8 @@ namespace RefreshCS
         [StructLayout(LayoutKind.Sequential)]
         public struct ComputePipelineCreateInfo
         {
-            ShaderStageState computeShaderState;
-            ComputePipelineLayoutCreateInfo pipelineLayoutCreateInfo;
+            public ShaderStageState computeShaderState;
+            public ComputePipelineLayoutCreateInfo pipelineLayoutCreateInfo;
         }
 
         [StructLayout(LayoutKind.Sequential)]
@@ -646,7 +649,7 @@ namespace RefreshCS
             IntPtr device,
             IntPtr commandBuffer,
             ref Rect clearRect,
-            uint clearOptions,
+            Refresh.ClearOptionsFlags clearOptions,
             ref Color[] colors,
             uint colorCount,
             float depth,
@@ -804,12 +807,20 @@ namespace RefreshCS
         );
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Refresh_GetBufferData(
+            IntPtr device,
+            IntPtr buffer,
+            IntPtr data,
+            uint dataLengthInBytes
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void Refresh_SetBufferData(
             IntPtr device,
             IntPtr buffer,
             uint offsetInBytes,
             IntPtr data,
-            uint dataLength
+            uint dataLengthInBytes
         );
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
