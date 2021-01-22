@@ -635,7 +635,7 @@ namespace RefreshCS
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr Refresh_CreateDevice(
-            ref PresentationParameters presentationParameters,
+            in PresentationParameters presentationParameters,
             byte debugMode
         );
 
@@ -648,9 +648,9 @@ namespace RefreshCS
         public static extern void Refresh_Clear(
             IntPtr device,
             IntPtr commandBuffer,
-            ref Rect clearRect,
+            in Rect clearRect,
             Refresh.ClearOptionsFlags clearOptions,
-            ref Color[] colors,
+            in Color[] colors,
             uint colorCount,
             float depth,
             int stencil
@@ -704,50 +704,50 @@ namespace RefreshCS
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr Refresh_CreateRenderPass(
             IntPtr device,
-            ref RenderPassCreateInfo renderPassCreateInfo
+            in RenderPassCreateInfo renderPassCreateInfo
         );
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr Refresh_CreateComputePipeline(
             IntPtr device,
-            ref ComputePipelineCreateInfo computePipelineCreateInfo
+            in ComputePipelineCreateInfo computePipelineCreateInfo
         );
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr Refresh_CreateGraphicsPipeline(
             IntPtr device,
-            ref GraphicsPipelineCreateInfo graphicsPipelineCreateInfo
+            in GraphicsPipelineCreateInfo graphicsPipelineCreateInfo
         );
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr Refresh_CreateSampler(
             IntPtr device,
-            ref SamplerStateCreateInfo samplerStateCreateInfo
+            in SamplerStateCreateInfo samplerStateCreateInfo
         );
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr Refresh_CreateFramebuffer(
             IntPtr device,
-            ref FramebufferCreateInfo framebufferCreateInfo
+            in FramebufferCreateInfo framebufferCreateInfo
         );
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr Refresh_CreateShaderModule(
             IntPtr device,
-            ref ShaderModuleCreateInfo shaderModuleCreateInfo
+            in ShaderModuleCreateInfo shaderModuleCreateInfo
         );
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr Refresh_CreateTexture(
             IntPtr device,
-            ref TextureCreateInfo textureCreateInfo
+            in TextureCreateInfo textureCreateInfo
         );
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr Refresh_CreateColorTarget(
             IntPtr device,
             SampleCount multisampleCount,
-            ref TextureSlice textureSlice
+            in TextureSlice textureSlice
         );
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -770,7 +770,7 @@ namespace RefreshCS
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void Refresh_SetTextureData(
             IntPtr device,
-            ref TextureSlice textureSlice,
+            in TextureSlice textureSlice,
             IntPtr data,
             uint dataLengthInBytes
         );
@@ -793,8 +793,8 @@ namespace RefreshCS
         public static extern void Refresh_CopyTextureToTexture(
             IntPtr device,
             IntPtr commandBuffer,
-            ref TextureSlice sourceTextureSlice,
-            ref TextureSlice destinationTextureSlice,
+            in TextureSlice sourceTextureSlice,
+            in TextureSlice destinationTextureSlice,
             Filter filter
         );
 
@@ -802,7 +802,7 @@ namespace RefreshCS
         public static extern void Refresh_CopyTextureToBuffer(
             IntPtr device,
             IntPtr commandBuffer,
-            ref TextureSlice textureSlice,
+            in TextureSlice textureSlice,
             IntPtr buffer
         );
 
@@ -917,10 +917,10 @@ namespace RefreshCS
             IntPtr commandBuffer,
             IntPtr renderPass,
             IntPtr framebuffer,
-            ref Rect renderArea,
+            in Rect renderArea,
             IntPtr pColorClearValues,
             uint colorClearCount,
-            ref DepthStencilValue depthStencilClearValue
+            in DepthStencilValue depthStencilClearValue
         );
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -929,7 +929,7 @@ namespace RefreshCS
             IntPtr commandBuffer,
             IntPtr renderPass,
             IntPtr framebuffer,
-            ref Rect renderArea,
+            in Rect renderArea,
             IntPtr pColorClearValues,
             uint colorClearCount,
             IntPtr depthStencilClearValue /* NULL */
@@ -1016,8 +1016,8 @@ namespace RefreshCS
         public static extern void Refresh_QueuePresent(
             IntPtr device,
             IntPtr commandBuffer,
-            ref TextureSlice textureSlice,
-            ref Rect destinationRectangle,
+            in TextureSlice textureSlice,
+            in Rect destinationRectangle,
             Filter filter
         );
 
@@ -1025,7 +1025,7 @@ namespace RefreshCS
         public static extern void Refresh_QueuePresent(
             IntPtr device,
             IntPtr commandBuffer,
-            ref TextureSlice textureSlice,
+            in TextureSlice textureSlice,
             IntPtr destinationRectangle, /* null Rect */
             Filter filter
         );
