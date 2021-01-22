@@ -650,10 +650,9 @@ namespace RefreshCS
             IntPtr commandBuffer,
             in Rect clearRect,
             Refresh.ClearOptionsFlags clearOptions,
-            in Color[] colors,
+            IntPtr colors,
             uint colorCount,
-            float depth,
-            int stencil
+            DepthStencilValue depthStencilValue
         );
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
