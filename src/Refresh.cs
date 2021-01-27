@@ -82,7 +82,7 @@ namespace RefreshCS
             ThirtyTwo
         }
 
-        public enum ColorFormat
+        public enum TextureFormat
         {
             R8G8B8A8,
             R5G6B5,
@@ -102,22 +102,19 @@ namespace RefreshCS
             R32G32B32A32_SFLOAT,
             R16_SFLOAT,
             R16G16_SFLOAT,
-            R16G16B16A16_SFLOAT
-        }
-
-        public enum DepthFormat
-        {
-            Depth16,
-            Depth32,
-            Depth16Stencil8,
-            Depth32Stencil8
+            R16G16B16A16_SFLOAT,
+            D16,
+            D32,
+            D16S8,
+            D32S8
         }
 
         [Flags]
         public enum TextureUsageFlags : uint
         {
-            SamplerBit = 1,
-            ColorTargetBit = 2
+            Sampler = 1,
+            ColorTarget = 2,
+            DepthStencilTarget = 4
         }
 
         public enum SampleCount
@@ -478,7 +475,7 @@ namespace RefreshCS
         [StructLayout(LayoutKind.Sequential)]
         public struct ColorTargetDescription
         {
-            public ColorFormat format;
+            public TextureFormat format;
             public SampleCount multisampleCount;
             public LoadOp loadOp;
             public StoreOp storeOp;
@@ -487,7 +484,7 @@ namespace RefreshCS
         [StructLayout(LayoutKind.Sequential)]
         public struct DepthStencilTargetDescription
         {
-            public DepthFormat depthFormat;
+            public TextureFormat format;
             public LoadOp loadOp;
             public StoreOp storeOp;
             public LoadOp stencilLoadOp;
@@ -518,7 +515,7 @@ namespace RefreshCS
             public byte isCube;
             public SampleCount sampleCount;
             public uint levelCount;
-            public ColorFormat format;
+            public TextureFormat format;
             public TextureUsageFlags usageFlags; /* Refresh_TextureUsageFlags */
         }
 
@@ -743,18 +740,10 @@ namespace RefreshCS
         );
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr Refresh_CreateColorTarget(
+        public static extern IntPtr Refresh_CreateRenderTarget(
             IntPtr device,
-            SampleCount multisampleCount,
-            in TextureSlice textureSlice
-        );
-
-        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr Refresh_CreateDepthStencilTarget(
-            IntPtr device,
-            uint width,
-            uint height,
-            DepthFormat format
+            in TextureSlice textureSlice,
+            SampleCount multisampleCount
         );
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -867,15 +856,9 @@ namespace RefreshCS
         );
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void Refresh_QueueDestroyColorTarget(
+        public static extern void Refresh_QueueDestroyRenderTarget(
             IntPtr device,
-            IntPtr colorTarget
-        );
-
-        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void Refresh_QueueDestroyDepthStencilTarget(
-            IntPtr device,
-            IntPtr depthStencilTarget
+            IntPtr renderTarget
         );
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
