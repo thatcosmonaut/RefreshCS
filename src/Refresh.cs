@@ -828,7 +828,7 @@ namespace RefreshCS
         );
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern uint Refresh_PushComputeShaderParams(
+        public static extern uint Refresh_PushComputeShaderUniforms(
             IntPtr device,
             IntPtr commandBuffer,
             IntPtr data,
