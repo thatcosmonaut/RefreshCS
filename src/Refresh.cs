@@ -816,7 +816,7 @@ namespace RefreshCS
             IntPtr device,
             IntPtr commandBuffer,
             IntPtr data,
-            uint paramBlockCount
+            uint dataLengthInBytes
         );
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -824,7 +824,7 @@ namespace RefreshCS
             IntPtr device,
             IntPtr commandBuffer,
             IntPtr data,
-            uint paramBlockCount
+            uint dataLengthInBytes
         );
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -832,7 +832,7 @@ namespace RefreshCS
             IntPtr device,
             IntPtr commandBuffer,
             IntPtr data,
-            uint paramBlockCount
+            uint dataLengthInBytes
         );
 
         /* Disposal */
