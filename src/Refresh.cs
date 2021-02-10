@@ -128,7 +128,7 @@ namespace RefreshCS
             SixtyFour
         }
 
-        public enum CubeMapFace
+        public enum CubeMapFace : uint
         {
             PositiveX,
             NegativeX,
@@ -325,15 +325,6 @@ namespace RefreshCS
         }
 
         /* Native Structures */
-
-        [StructLayout(LayoutKind.Sequential)]
-        public struct Color
-        {
-            public byte r;
-            public byte g;
-            public byte b;
-            public byte a;
-        }
 
         [StructLayout(LayoutKind.Sequential)]
         public struct DepthStencilValue
