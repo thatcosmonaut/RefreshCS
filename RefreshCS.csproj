@@ -8,6 +8,8 @@
   </PropertyGroup>
 
 	<ItemGroup>
-		<None Include="RefreshCS.dll.config" />
+		<None Include="RefreshCS.dll.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
 	</ItemGroup>
 </Project>
