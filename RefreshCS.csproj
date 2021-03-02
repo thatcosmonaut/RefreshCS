@@ -7,4 +7,7 @@
     <Platforms>x64</Platforms>
   </PropertyGroup>
 
+	<ItemGroup>
+		<None Include="RefreshCS.dll.config" />
+	</ItemGroup>
 </Project>
