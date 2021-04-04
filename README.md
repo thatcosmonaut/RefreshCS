@@ -1,4 +1,4 @@
-This is RefreshCS, a C# interop library for the [Refresh](https://gitea.moonside.games/MoonsideGames/RefreshCS) graphics system.
+This is RefreshCS, a C# interop library for the [Refresh](https://gitea.moonside.games/MoonsideGames/Refresh) graphics system.
 
 ## License
 
