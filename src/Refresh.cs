@@ -749,7 +749,8 @@ namespace RefreshCS
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void Refresh_SetTextureData(
             IntPtr device,
-            in TextureSlice textureSlice,
+            IntPtr commandBuffer,
+            ref TextureSlice textureSlice,
             IntPtr data,
             uint dataLengthInBytes
         );
@@ -757,6 +758,7 @@ namespace RefreshCS
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void Refresh_SetTextureDataYUV(
             IntPtr device,
+            IntPtr commandBuffer,
             IntPtr y,
             IntPtr u,
             IntPtr v,
