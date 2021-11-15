@@ -750,7 +750,7 @@ namespace RefreshCS
         public static extern void Refresh_SetTextureData(
             IntPtr device,
             IntPtr commandBuffer,
-            ref TextureSlice textureSlice,
+            in TextureSlice textureSlice,
             IntPtr data,
             uint dataLengthInBytes
         );
