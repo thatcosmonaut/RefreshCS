@@ -807,7 +807,7 @@ namespace RefreshCS
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern uint Refresh_PushVertexShaderUniforms(
             IntPtr device,
-            IntPtr graphicsPipeline,
+            IntPtr commandBuffer,
             IntPtr data,
             uint dataLengthInBytes
         );
@@ -815,7 +815,7 @@ namespace RefreshCS
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern uint Refresh_PushFragmentShaderUniforms(
             IntPtr device,
-            IntPtr graphicsPipeline,
+            IntPtr commandBuffer,
             IntPtr data,
             uint dataLengthInBytes
         );
@@ -823,7 +823,7 @@ namespace RefreshCS
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern uint Refresh_PushComputeShaderUniforms(
             IntPtr device,
-            IntPtr computePipeline,
+            IntPtr commandBuffer,
             IntPtr data,
             uint dataLengthInBytes
         );
