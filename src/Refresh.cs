@@ -66,12 +66,6 @@ namespace RefreshCS
             DontCare
         }
 
-        public enum SetDataOptions
-        {
-            Immediate,
-            Deferred
-        }
-
         [Flags]
         public enum ClearOptionsFlags : uint
         {
@@ -808,8 +802,7 @@ namespace RefreshCS
             IntPtr buffer,
             uint offsetInBytes,
             IntPtr data,
-            uint dataLengthInBytes,
-            SetDataOptions setDataOption
+            uint dataLengthInBytes
         );
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
