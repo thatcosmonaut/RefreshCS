@@ -994,7 +994,8 @@ namespace RefreshCS
             IntPtr commandBuffer,
             in TextureSlice textureSlice,
             in Rect destinationRectangle,
-            Filter filter
+            Filter filter,
+			IntPtr windowHandle
         );
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -1003,7 +1004,8 @@ namespace RefreshCS
             IntPtr commandBuffer,
             in TextureSlice textureSlice,
             IntPtr destinationRectangle, /* null Rect */
-            Filter filter
+            Filter filter,
+			IntPtr windowHandle
         );
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
