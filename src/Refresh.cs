@@ -437,7 +437,7 @@ namespace RefreshCS
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
-		public struct ColorTargetBlendState
+		public struct ColorAttachmentBlendState
 		{
 			public byte blendEnable;
 			public BlendFactor sourceColorBlendFactor;
@@ -493,6 +493,13 @@ namespace RefreshCS
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
+		public struct ComputePipelineCreateInfo
+		{
+			public ShaderStageState computeShaderState;
+			public ComputePipelineLayoutCreateInfo pipelineLayoutCreateInfo;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
 		public struct ViewportState
 		{
 			public IntPtr viewports;
@@ -537,20 +544,11 @@ namespace RefreshCS
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
-		public unsafe struct ColorBlendState
+		public unsafe struct PipelineColorBlendState
 		{
 			public byte logicOpEnable;
 			public LogicOp logicOp;
-			public IntPtr blendStates;
-			public uint blendStateCount;
 			public fixed float blendConstants[4];
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public struct ComputePipelineCreateInfo
-		{
-			public ShaderStageState computeShaderState;
-			public ComputePipelineLayoutCreateInfo pipelineLayoutCreateInfo;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -558,6 +556,7 @@ namespace RefreshCS
 		{
 			public TextureFormat format;
 			public SampleCount sampleCount;
+			public ColorAttachmentBlendState blendState;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -580,7 +579,7 @@ namespace RefreshCS
 			public RasterizerState rasterizerState;
 			public MultisampleState multisampleState;
 			public DepthStencilState depthStencilState;
-			public ColorBlendState colorBlendState;
+			public PipelineColorBlendState colorBlendState;
 			public GraphicsPipelineLayoutCreateInfo pipelineLayoutCreateInfo;
 			public GraphicsPipelineAttachmentInfo attachmentInfo;
 		}
