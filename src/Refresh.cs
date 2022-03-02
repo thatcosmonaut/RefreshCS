@@ -172,16 +172,14 @@ namespace RefreshCS
 		public enum FillMode
 		{
 			Fill,
-			Line,
-			Point
+			Line
 		}
 
 		public enum CullMode
 		{
 			None,
 			Front,
-			Back,
-			FrontAndBack
+			Back
 		}
 
 		public enum FrontFace
@@ -223,26 +221,6 @@ namespace RefreshCS
 			Max
 		}
 
-		public enum LogicOp
-		{
-			Clear,
-			And,
-			AndReverse,
-			Copy,
-			AndInverted,
-			NoOp,
-			Xor,
-			Or,
-			Nor,
-			Equivalent,
-			Invert,
-			OrReverse,
-			CopyInverted,
-			OrInverted,
-			Nand,
-			Set
-		}
-
 		public enum BlendFactor
 		{
 			Zero,
@@ -257,8 +235,6 @@ namespace RefreshCS
 			OneMinusDestinationAlpha,
 			ConstantColor,
 			OneMinusConstantColor,
-			ConstantAlpha,
-			OneMinusConstantAlpha,
 			SourceAlphaSaturate,
 			SourceOneColor,
 			OneMinusSourceOneColor,
@@ -297,8 +273,7 @@ namespace RefreshCS
 		public enum Filter
 		{
 			Nearest,
-			Linear,
-			Cubic
+			Linear
 		}
 
 		public enum SamplerMipmapMode
@@ -451,20 +426,6 @@ namespace RefreshCS
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
-		public struct ComputePipelineLayoutCreateInfo
-		{
-			public uint bufferBindingCount;
-			public uint imageBindingCount;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public struct GraphicsPipelineLayoutCreateInfo
-		{
-			public uint vertexSamplerBindingCount;
-			public uint fragmentSamplerBindingCount;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
 		public struct ShaderModuleCreateInfo
 		{
 			public UIntPtr codeSize; /* size_t */
@@ -485,19 +446,24 @@ namespace RefreshCS
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
-		public struct ShaderStageState
+		public struct GraphicsShaderInfo
 		{
 			public IntPtr shaderModule;
 			[MarshalAs(UnmanagedType.LPStr)]
 			public string entryPointName;
 			public ulong uniformBufferSize;
+			public uint samplerBindingCount;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
-		public struct ComputePipelineCreateInfo
+		public struct ComputeShaderInfo
 		{
-			public ShaderStageState computeShaderState;
-			public ComputePipelineLayoutCreateInfo pipelineLayoutCreateInfo;
+			public IntPtr shaderModule;
+			[MarshalAs(UnmanagedType.LPStr)]
+			public string entryPointName;
+			public ulong uniformBufferSize;
+			public uint bufferBindingCount;
+			public uint imageBindingCount;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -545,14 +511,6 @@ namespace RefreshCS
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
-		public unsafe struct PipelineColorBlendState
-		{
-			public byte logicOpEnable;
-			public LogicOp logicOp;
-			public fixed float blendConstants[4];
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
 		public struct ColorAttachmentDescription
 		{
 			public TextureFormat format;
@@ -570,19 +528,18 @@ namespace RefreshCS
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
-		public struct GraphicsPipelineCreateInfo
+		public unsafe struct GraphicsPipelineCreateInfo
 		{
-			public ShaderStageState vertexShaderState;
-			public ShaderStageState fragmentShaderState;
+			public GraphicsShaderInfo vertexShaderInfo;
+			public GraphicsShaderInfo fragmentShaderInfo;
 			public VertexInputState vertexInputState;
 			public PrimitiveType primitiveType;
 			public ViewportState viewportState;
 			public RasterizerState rasterizerState;
 			public MultisampleState multisampleState;
 			public DepthStencilState depthStencilState;
-			public PipelineColorBlendState colorBlendState;
-			public GraphicsPipelineLayoutCreateInfo pipelineLayoutCreateInfo;
 			public GraphicsPipelineAttachmentInfo attachmentInfo;
+			public fixed float blendConstants[4];
 		}
 
 		public struct ColorAttachmentInfo
@@ -694,7 +651,7 @@ namespace RefreshCS
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr Refresh_CreateComputePipeline(
 			IntPtr device,
-			in ComputePipelineCreateInfo computePipelineCreateInfo
+			in ComputeShaderInfo computeShaderInfo
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
