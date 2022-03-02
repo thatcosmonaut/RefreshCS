@@ -85,6 +85,7 @@ namespace RefreshCS
 		public enum TextureFormat
 		{
 			R8G8B8A8,
+			B8G8R8A8,
 			R5G6B5,
 			A1R5G5B5,
 			B4G4R4A4,
@@ -586,7 +587,11 @@ namespace RefreshCS
 
 		public struct ColorAttachmentInfo
 		{
-			public IntPtr renderTarget;
+			public IntPtr texture;
+			public uint depth;
+			public uint layer;
+			public uint level;
+			public SampleCount sampleCount;
 			public Vec4 clearColor;
 			public LoadOp loadOp;
 			public StoreOp storeOp;
@@ -594,8 +599,11 @@ namespace RefreshCS
 
 		public struct DepthStencilAttachmentInfo
 		{
-			public IntPtr depthStencilTarget;
-			public DepthStencilValue depthStencilValue;
+			public IntPtr texture;
+			public uint depth;
+			public uint layer;
+			public uint level;
+			public DepthStencilValue depthStencilClearValue;
 			public LoadOp loadOp;
 			public StoreOp storeOp;
 			public LoadOp stencilLoadOp;
@@ -714,13 +722,6 @@ namespace RefreshCS
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr Refresh_CreateRenderTarget(
-			IntPtr device,
-			in TextureSlice textureSlice,
-			SampleCount multisampleCount
-		);
-
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr Refresh_CreateBuffer(
 			IntPtr device,
 			BufferUsageFlags usageFlags,
@@ -833,13 +834,6 @@ namespace RefreshCS
 			IntPtr device,
 			IntPtr commandBuffer,
 			IntPtr buffer
-		);
-
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void Refresh_QueueDestroyRenderTarget(
-			IntPtr device,
-			IntPtr commandBuffer,
-			IntPtr renderTarget
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -963,22 +957,15 @@ namespace RefreshCS
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void Refresh_QueuePresent(
+		public static extern IntPtr Refresh_AcquireSwapchainTexture(
 			IntPtr device,
 			IntPtr commandBuffer,
-			in TextureSlice textureSlice,
-			in Rect destinationRectangle,
-			Filter filter,
 			IntPtr windowHandle
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void Refresh_QueuePresent(
+		public static extern TextureFormat Refresh_GetSwapchainFormat(
 			IntPtr device,
-			IntPtr commandBuffer,
-			in TextureSlice textureSlice,
-			IntPtr destinationRectangle, /* null Rect */
-			Filter filter,
 			IntPtr windowHandle
 		);
 
@@ -1012,6 +999,7 @@ namespace RefreshCS
 			[MarshalAs(UnmanagedType.LPStr)] string filename,
 			int w,
 			int h,
+			byte bgra,
 			IntPtr data
 		);
 	}
