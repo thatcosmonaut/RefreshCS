@@ -34,6 +34,21 @@ namespace RefreshCS
 	{
 		private const string nativeLibName = "Refresh";
 
+		/* Version */
+
+		public const uint REFRESH_MAJOR_VERSION = 1;
+		public const uint REFRESH_MINOR_VERSION = 0;
+		public const uint REFRESH_PATCH_VERSION = 0;
+
+		public const uint REFRESH_COMPILED_VERSION = (
+			(REFRESH_MAJOR_VERSION * 100 * 100) +
+			(REFRESH_MINOR_VERSION * 100) +
+			(REFRESH_PATCH_VERSION)
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern uint Refresh_LinkedVersion();
+
 		/* Enums */
 
 		public enum PresentMode
