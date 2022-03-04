@@ -481,15 +481,6 @@ namespace RefreshCS
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
-		public struct ViewportState
-		{
-			public IntPtr viewports;
-			public uint viewportCount;
-			public IntPtr scissors;
-			public uint scissorCount;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
 		public struct RasterizerState
 		{
 			public byte depthClampEnable;
@@ -548,7 +539,6 @@ namespace RefreshCS
 			public GraphicsShaderInfo fragmentShaderInfo;
 			public VertexInputState vertexInputState;
 			public PrimitiveType primitiveType;
-			public ViewportState viewportState;
 			public RasterizerState rasterizerState;
 			public MultisampleState multisampleState;
 			public DepthStencilState depthStencilState;
@@ -855,6 +845,20 @@ namespace RefreshCS
 			IntPtr device,
 			IntPtr commandBuffer,
 			IntPtr graphicsPipeline
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void Refresh_SetViewport(
+			IntPtr device,
+			IntPtr commandBuffer,
+			in Viewport viewport
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void Refresh_SetScissor(
+			IntPtr device,
+			IntPtr commandBuffer,
+			in Rect scissor
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
