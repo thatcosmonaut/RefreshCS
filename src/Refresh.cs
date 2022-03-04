@@ -25,7 +25,6 @@
  */
 
 using System;
-using System.IO;
 using System.Runtime.InteropServices;
 
 namespace RefreshCS
@@ -790,42 +789,36 @@ namespace RefreshCS
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void Refresh_QueueDestroyTexture(
 			IntPtr device,
-			IntPtr commandBuffer,
 			IntPtr texture
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void Refresh_QueueDestroySampler(
 			IntPtr device,
-			IntPtr commandBuffer,
 			IntPtr sampler
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void Refresh_QueueDestroyBuffer(
 			IntPtr device,
-			IntPtr commandBuffer,
 			IntPtr buffer
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void Refresh_QueueDestroyShaderModule(
 			IntPtr device,
-			IntPtr commandBuffer,
 			IntPtr shaderModule
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void Refresh_QueueDestroyComputePipeline(
 			IntPtr device,
-			IntPtr commandBuffer,
 			IntPtr computePipeline
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void Refresh_QueueDestroyGraphicsPipeline(
 			IntPtr device,
-			IntPtr commandBuffer,
 			IntPtr graphicsPipeline
 		);
 
