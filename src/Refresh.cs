@@ -825,10 +825,30 @@ namespace RefreshCS
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void Refresh_BeginRenderPass(
+			IntPtr device,
+			IntPtr commandBuffer,
+			IntPtr renderArea, /* can be NULL */
+			IntPtr colorAttachmentInfos,
+			uint colorAttachmentCount,
+			IntPtr depthStencilAttachmentInfo /* can be NULL */
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static unsafe extern void Refresh_BeginRenderPass(
 			IntPtr device,
 			IntPtr commandBuffer,
 			in Rect renderArea,
+			ColorAttachmentInfo* colorAttachmentInfos,
+			uint colorAttachmentCount,
+			DepthStencilAttachmentInfo* depthStencilAttachmentInfo /* can be NULL */
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static unsafe extern void Refresh_BeginRenderPass(
+			IntPtr device,
+			IntPtr commandBuffer,
+			IntPtr renderArea, /* can be NULL */
 			ColorAttachmentInfo* colorAttachmentInfos,
 			uint colorAttachmentCount,
 			DepthStencilAttachmentInfo* depthStencilAttachmentInfo /* can be NULL */
