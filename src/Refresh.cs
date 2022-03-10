@@ -80,16 +80,6 @@ namespace RefreshCS
 			DontCare
 		}
 
-		[Flags]
-		public enum ClearOptionsFlags : uint
-		{
-			Color = 1,
-			Depth = 2,
-			Stencil = 4,
-			DepthStencil = Depth | Stencil,
-			All = Color | Depth | Stencil
-		}
-
 		public enum IndexElementSize
 		{
 			Sixteen,
@@ -597,17 +587,6 @@ namespace RefreshCS
 		/* Drawing */
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void Refresh_Clear(
-			IntPtr device,
-			IntPtr commandBuffer,
-			in Rect clearRect,
-			Refresh.ClearOptionsFlags clearOptions,
-			IntPtr colors,
-			uint colorCount,
-			DepthStencilValue depthStencilValue
-		);
-
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void Refresh_DrawInstancedPrimitives(
 			IntPtr device,
 			IntPtr commandBuffer,
@@ -949,7 +928,9 @@ namespace RefreshCS
 		public static extern IntPtr Refresh_AcquireSwapchainTexture(
 			IntPtr device,
 			IntPtr commandBuffer,
-			IntPtr windowHandle
+			IntPtr windowHandle,
+			out uint width,
+			out uint height
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
