@@ -36,7 +36,7 @@ namespace RefreshCS
 		/* Version */
 
 		public const uint REFRESH_MAJOR_VERSION = 1;
-		public const uint REFRESH_MINOR_VERSION = 1;
+		public const uint REFRESH_MINOR_VERSION = 3;
 		public const uint REFRESH_PATCH_VERSION = 0;
 
 		public const uint REFRESH_COMPILED_VERSION = (
