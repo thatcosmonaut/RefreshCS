@@ -481,7 +481,6 @@ namespace RefreshCS
 			public float depthBiasConstantFactor;
 			public float depthBiasClamp;
 			public float depthBiasSlopeFactor;
-			public float lineWidth;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
