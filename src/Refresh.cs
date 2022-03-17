@@ -153,7 +153,8 @@ namespace RefreshCS
 
 		public enum VertexElementFormat
 		{
-			Single,
+			UInt,
+			Float,
 			Vector2,
 			Vector3,
 			Vector4,
