@@ -36,7 +36,7 @@ namespace RefreshCS
 		/* Version */
 
 		public const uint REFRESH_MAJOR_VERSION = 1;
-		public const uint REFRESH_MINOR_VERSION = 5;
+		public const uint REFRESH_MINOR_VERSION = 6;
 		public const uint REFRESH_PATCH_VERSION = 0;
 
 		public const uint REFRESH_COMPILED_VERSION = (
@@ -120,7 +120,8 @@ namespace RefreshCS
 		{
 			Sampler = 1,
 			ColorTarget = 2,
-			DepthStencilTarget = 4
+			DepthStencilTarget = 4,
+			Compute = 8
 		}
 
 		public enum SampleCount
@@ -149,7 +150,8 @@ namespace RefreshCS
 		{
 			Vertex = 1,
 			Index = 2,
-			Compute = 4
+			Compute = 4,
+			Indirect = 8
 		}
 
 		public enum VertexElementFormat
@@ -616,6 +618,18 @@ namespace RefreshCS
 			IntPtr commandBuffer,
 			uint vertexStart,
 			uint primitiveCount,
+			uint vertexParamOffset,
+			uint fragmentParamOffset
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void Refresh_DrawPrimitivesIndirect(
+			IntPtr device,
+			IntPtr commandBuffer,
+			IntPtr buffer,
+			uint offsetInBytes,
+			uint drawCount,
+			uint stride,
 			uint vertexParamOffset,
 			uint fragmentParamOffset
 		);
