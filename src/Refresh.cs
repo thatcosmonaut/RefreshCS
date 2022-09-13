@@ -36,7 +36,7 @@ namespace RefreshCS
 		/* Version */
 
 		public const uint REFRESH_MAJOR_VERSION = 1;
-		public const uint REFRESH_MINOR_VERSION = 6;
+		public const uint REFRESH_MINOR_VERSION = 7;
 		public const uint REFRESH_PATCH_VERSION = 0;
 
 		public const uint REFRESH_COMPILED_VERSION = (
@@ -93,22 +93,29 @@ namespace RefreshCS
 			R5G6B5,
 			A1R5G5B5,
 			B4G4R4A4,
+			A2R10G10B10,
+			R16G16,
+			R16G16B16A16,
+			R8,
 			BC1,
 			BC2,
 			BC3,
 			BC7,
 			R8G8_SNORM,
 			R8G8B8A8_SNORM,
-			A2R10G10B10,
-			R16G16,
-			R16G16B16A16,
-			R8,
-			R32_SFLOAT,
-			R32G32_SFLOAT,
-			R32G32B32A32_SFLOAT,
 			R16_SFLOAT,
 			R16G16_SFLOAT,
 			R16G16B16A16_SFLOAT,
+			R32_SFLOAT,
+			R32G32_SFLOAT,
+			R32G32B32A32_SFLOAT,
+
+			R8_UINT,
+			R8G8_UINT,
+			R8G8B8A8_UINT,
+			R16_UINT,
+			R16G16_UINT,
+			R16G16B16A16_UINT,
 			D16,
 			D32,
 			D16S8,
