@@ -36,7 +36,7 @@ namespace RefreshCS
 		/* Version */
 
 		public const uint REFRESH_MAJOR_VERSION = 1;
-		public const uint REFRESH_MINOR_VERSION = 7;
+		public const uint REFRESH_MINOR_VERSION = 8;
 		public const uint REFRESH_PATCH_VERSION = 0;
 
 		public const uint REFRESH_COMPILED_VERSION = (
@@ -315,6 +315,14 @@ namespace RefreshCS
 			IntOpaqueWhite
 		}
 
+		public enum Backend
+		{
+			DontCare,
+			Vulkan,
+			PS5,
+			Invalid
+		}
+
 		/* Native Structures */
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -361,13 +369,6 @@ namespace RefreshCS
 			public uint depth;
 			public uint layer;
 			public uint level;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public struct PresentationParameters
-		{
-			public IntPtr deviceWindowHandle;
-			public PresentMode presentMode;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -586,8 +587,13 @@ namespace RefreshCS
 		/* Init/Quit */
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern Backend Refresh_SelectBackend(
+			Backend preferredBackend,
+			out uint flags
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr Refresh_CreateDevice(
-			in PresentationParameters presentationParameters,
 			byte debugMode
 		);
 
@@ -941,6 +947,32 @@ namespace RefreshCS
 		/* Submission/Presentation */
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern byte Refresh_ClaimWindow(
+			IntPtr device,
+			IntPtr windowHandle,
+			PresentMode presentMode
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void Refresh_UnclaimWindow(
+			IntPtr device,
+			IntPtr windowHandle
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void Refresh_SetSwapchainPresentMode(
+			IntPtr device,
+			IntPtr windowHandle,
+			PresentMode presentMode
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern TextureFormat Refresh_GetSwapchainFormat(
+			IntPtr device,
+			IntPtr windowHandle
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr Refresh_AcquireCommandBuffer(
 			IntPtr device,
 			byte isFixed
@@ -953,12 +985,6 @@ namespace RefreshCS
 			IntPtr windowHandle,
 			out uint width,
 			out uint height
-		);
-
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern TextureFormat Refresh_GetSwapchainFormat(
-			IntPtr device,
-			IntPtr windowHandle
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
