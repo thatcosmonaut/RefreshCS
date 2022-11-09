@@ -455,7 +455,6 @@ namespace RefreshCS
 			public uint height;
 			public uint depth;
 			public byte isCube;
-			public SampleCount sampleCount;
 			public uint levelCount;
 			public TextureFormat format;
 			public TextureUsageFlags usageFlags; /* Refresh_TextureUsageFlags */
@@ -520,7 +519,6 @@ namespace RefreshCS
 		public struct ColorAttachmentDescription
 		{
 			public TextureFormat format;
-			public SampleCount sampleCount;
 			public ColorAttachmentBlendState blendState;
 		}
 
@@ -825,17 +823,6 @@ namespace RefreshCS
 		public static extern void Refresh_BeginRenderPass(
 			IntPtr device,
 			IntPtr commandBuffer,
-			in Rect renderArea,
-			IntPtr colorAttachmentInfos,
-			uint colorAttachmentCount,
-			IntPtr depthStencilAttachmentInfo /* can be NULL */
-		);
-
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void Refresh_BeginRenderPass(
-			IntPtr device,
-			IntPtr commandBuffer,
-			IntPtr renderArea, /* can be NULL */
 			IntPtr colorAttachmentInfos,
 			uint colorAttachmentCount,
 			IntPtr depthStencilAttachmentInfo /* can be NULL */
@@ -845,17 +832,6 @@ namespace RefreshCS
 		public static unsafe extern void Refresh_BeginRenderPass(
 			IntPtr device,
 			IntPtr commandBuffer,
-			in Rect renderArea,
-			ColorAttachmentInfo* colorAttachmentInfos,
-			uint colorAttachmentCount,
-			DepthStencilAttachmentInfo* depthStencilAttachmentInfo /* can be NULL */
-		);
-
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static unsafe extern void Refresh_BeginRenderPass(
-			IntPtr device,
-			IntPtr commandBuffer,
-			IntPtr renderArea, /* can be NULL */
 			ColorAttachmentInfo* colorAttachmentInfos,
 			uint colorAttachmentCount,
 			DepthStencilAttachmentInfo* depthStencilAttachmentInfo /* can be NULL */
