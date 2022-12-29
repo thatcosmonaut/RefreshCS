@@ -250,11 +250,7 @@ namespace RefreshCS
 			OneMinusDestinationAlpha,
 			ConstantColor,
 			OneMinusConstantColor,
-			SourceAlphaSaturate,
-			SourceOneColor,
-			OneMinusSourceOneColor,
-			SourceOneAlpha,
-			OneMinusSourceOneAlpha
+			SourceAlphaSaturate
 		}
 
 		[Flags]
@@ -484,7 +480,6 @@ namespace RefreshCS
 		[StructLayout(LayoutKind.Sequential)]
 		public struct RasterizerState
 		{
-			public byte depthClampEnable;
 			public FillMode fillMode;
 			public CullMode cullMode;
 			public FrontFace frontFace;
