@@ -368,6 +368,15 @@ namespace RefreshCS
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
+		public struct IndirectDrawCommand
+		{
+			public uint vertexCount;
+			public uint instanceCount;
+			public uint firstVertex;
+			public uint firstInstance;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
 		public struct SamplerStateCreateInfo
 		{
 			public Filter minFilter;
