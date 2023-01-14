@@ -954,8 +954,7 @@ namespace RefreshCS
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr Refresh_AcquireCommandBuffer(
-			IntPtr device,
-			byte isFixed
+			IntPtr device
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
