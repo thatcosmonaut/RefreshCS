@@ -136,10 +136,7 @@ namespace RefreshCS
 			One,
 			Two,
 			Four,
-			Eight,
-			Sixteen,
-			ThirtyTwo,
-			SixtyFour
+			Eight
 		}
 
 		public enum CubeMapFace : uint
@@ -461,6 +458,7 @@ namespace RefreshCS
 			public uint depth;
 			public byte isCube;
 			public uint levelCount;
+			public SampleCount sampleCount;
 			public TextureFormat format;
 			public TextureUsageFlags usageFlags; /* Refresh_TextureUsageFlags */
 		}
@@ -555,7 +553,6 @@ namespace RefreshCS
 			public uint depth;
 			public uint layer;
 			public uint level;
-			public SampleCount sampleCount;
 			public Vec4 clearColor;
 			public LoadOp loadOp;
 			public StoreOp storeOp;
