@@ -36,7 +36,7 @@ namespace RefreshCS
 		/* Version */
 
 		public const uint REFRESH_MAJOR_VERSION = 1;
-		public const uint REFRESH_MINOR_VERSION = 12;
+		public const uint REFRESH_MINOR_VERSION = 13;
 		public const uint REFRESH_PATCH_VERSION = 0;
 
 		public const uint REFRESH_COMPILED_VERSION = (
@@ -976,60 +976,23 @@ namespace RefreshCS
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr Refresh_Image_LoadPNGFromFile(
-			[MarshalAs(UnmanagedType.LPStr)] string filename,
-			out int width,
-			out int height,
-			out int numChannels
-		);
-
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr Refresh_Image_LoadPNGFromMemory(
-			IntPtr buffer,
+		public static extern IntPtr Refresh_Image_Load(
+			IntPtr bufferPtr,
 			int bufferLength,
-			out int width,
-			out int height,
-			out int numChannels
+			out int w,
+			out int h,
+			out int len
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void Refresh_Image_FreePNG(IntPtr mem);
+		public static extern void Refresh_Image_Free(IntPtr mem);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr Refresh_Image_LoadQOIFromFile(
+		public static extern IntPtr Refresh_Image_SavePNG(
 			[MarshalAs(UnmanagedType.LPStr)] string filename,
-			out int width,
-			out int height,
-			out int numChannels
-		);
-
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr Refresh_Image_LoadQOIFromMemory(
-			IntPtr buffer,
-			int bufferLength,
-			out int width,
-			out int height,
-			out int numChannels
-		);
-
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void Refresh_Image_FreeQOI(IntPtr mem);
-
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void Refresh_Image_SavePNG(
-			[MarshalAs(UnmanagedType.LPStr)] string filename,
+			IntPtr data,
 			int w,
-			int h,
-			byte bgra,
-			IntPtr data
-		);
-
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void Refresh_Image_SaveQOI(
-			[MarshalAs(UnmanagedType.LPStr)] string filename,
-			int w,
-			int h,
-			IntPtr data
+			int h
 		);
 	}
 }
