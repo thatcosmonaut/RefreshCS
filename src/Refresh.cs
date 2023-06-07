@@ -36,7 +36,7 @@ namespace RefreshCS
 		/* Version */
 
 		public const uint REFRESH_MAJOR_VERSION = 1;
-		public const uint REFRESH_MINOR_VERSION = 13;
+		public const uint REFRESH_MINOR_VERSION = 14;
 		public const uint REFRESH_PATCH_VERSION = 0;
 
 		public const uint REFRESH_COMPILED_VERSION = (
@@ -717,8 +717,13 @@ namespace RefreshCS
 			uint yHeight,
 			uint uvWidth,
 			uint uvHeight,
-			IntPtr data,
-			uint dataLength
+			IntPtr yDataPtr,
+			IntPtr uDataPtr,
+			IntPtr vDataPtr,
+			uint yDataLength,
+			uint uvDataLength,
+			uint yStride,
+			uint uvStride
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
