@@ -36,7 +36,7 @@ namespace RefreshCS
 		/* Version */
 
 		public const uint REFRESH_MAJOR_VERSION = 1;
-		public const uint REFRESH_MINOR_VERSION = 14;
+		public const uint REFRESH_MINOR_VERSION = 15;
 		public const uint REFRESH_PATCH_VERSION = 0;
 
 		public const uint REFRESH_COMPILED_VERSION = (
@@ -971,13 +971,38 @@ namespace RefreshCS
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void Refresh_Submit(
 			IntPtr device,
-			uint commandBufferCount,
-			IntPtr pCommandBuffers
+			IntPtr commandBuffer
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern IntPtr Refresh_SubmitAndAcquireFence(
+			IntPtr device,
+			IntPtr commandBuffer
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void Refresh_Wait(
 			IntPtr device
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void Refresh_WaitForFences(
+			IntPtr device,
+			byte waitAll,
+			uint fenceCount,
+			IntPtr pFences
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern int Refresh_QueryFence(
+			IntPtr device,
+			IntPtr fence
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void Refresh_ReleaseFence(
+			IntPtr device,
+			IntPtr fence
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
