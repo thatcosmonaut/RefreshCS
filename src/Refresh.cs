@@ -665,7 +665,7 @@ namespace RefreshCS
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr Refresh_CreateCpuBuffer(
+		public static extern IntPtr Refresh_CreateTransferBuffer(
 			IntPtr device,
 			uint sizeInBytes
 		);
@@ -687,13 +687,13 @@ namespace RefreshCS
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void Refresh_QueueDestroyGpuBuffer(
 			IntPtr device,
-			IntPtr buffer
+			IntPtr gpuBuffer
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void Refresh_QueueDestroyCpuBuffer(
+		public static extern void Refresh_QueueDestroyTransferBuffer(
 			IntPtr device,
-			IntPtr buffer
+			IntPtr transferBuffer
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -769,7 +769,7 @@ namespace RefreshCS
 		public static extern void Refresh_BindIndexBuffer(
 			IntPtr device,
 			IntPtr commandBuffer,
-			IntPtr buffer,
+			IntPtr gpuBuffer,
 			uint offset,
 			IndexElementSize indexElementSize
 		);
@@ -837,7 +837,7 @@ namespace RefreshCS
 		public static extern void Refresh_DrawPrimitivesIndirect(
 			IntPtr device,
 			IntPtr commandBuffer,
-			IntPtr buffer,
+			IntPtr gpuBuffer,
 			uint offsetInBytes,
 			uint drawCount,
 			uint stride
@@ -902,13 +902,13 @@ namespace RefreshCS
 			IntPtr commandBuffer
 		);
 
-		/* CpuBuffer Set/Get */
+		/* TransferBuffer Set/Get */
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr Refresh_SetData(
 			IntPtr device,
 			IntPtr data,
-			IntPtr cpuBuffer,
+			IntPtr transferBuffer,
 			in BufferCopy copyParams,
 			SetDataOptions option
 		);
@@ -916,7 +916,7 @@ namespace RefreshCS
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void Refresh_GetData(
 			IntPtr device,
-			IntPtr cpuBuffer,
+			IntPtr transferBuffer,
 			IntPtr data,
 			in BufferCopy copyParams
 		);
@@ -933,7 +933,7 @@ namespace RefreshCS
 		public static extern void Refresh_UploadToTexture(
 			IntPtr device,
 			IntPtr commandBuffer,
-			IntPtr cpuBuffer,
+			IntPtr transferBuffer,
 			in TextureSlice textureSlice,
 			in BufferImageCopy copyParams
 		);
@@ -942,7 +942,7 @@ namespace RefreshCS
 		public static extern void Refresh_UploadToBuffer(
 			IntPtr device,
 			IntPtr commandBuffer,
-			IntPtr cpuBuffer,
+			IntPtr transferBuffer,
 			IntPtr gpuBuffer,
 			in BufferCopy copyParams
 		);
@@ -952,7 +952,7 @@ namespace RefreshCS
 			IntPtr device,
 			IntPtr commandBuffer,
 			in TextureSlice textureSlice,
-			IntPtr cpuBuffer,
+			IntPtr transferBuffer,
 			in BufferImageCopy copyParams
 		);
 
@@ -961,7 +961,7 @@ namespace RefreshCS
 			IntPtr device,
 			IntPtr commandBuffer,
 			IntPtr gpuBuffer,
-			IntPtr cpuBuffer,
+			IntPtr transferBuffer,
 			in BufferCopy copyParams
 		);
 
