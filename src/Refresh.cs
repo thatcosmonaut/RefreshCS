@@ -35,8 +35,8 @@ namespace RefreshCS
 
 		/* Version */
 
-		public const uint REFRESH_MAJOR_VERSION = 1;
-		public const uint REFRESH_MINOR_VERSION = 15;
+		public const uint REFRESH_MAJOR_VERSION = 2;
+		public const uint REFRESH_MINOR_VERSION = 0;
 		public const uint REFRESH_PATCH_VERSION = 0;
 
 		public const uint REFRESH_COMPILED_VERSION = (
@@ -308,6 +308,12 @@ namespace RefreshCS
 			IntOpaqueWhite
 		}
 
+		public enum SetDataOptions
+		{
+			Discard,
+			Overwrite
+		}
+
 		public enum Backend
 		{
 			DontCare,
@@ -358,10 +364,31 @@ namespace RefreshCS
 		public struct TextureSlice
 		{
 			public IntPtr texture;
-			public Rect rectangle;
-			public uint depth;
-			public uint layer;
-			public uint level;
+			public uint mipLevel;
+			public uint baseLayer;
+			public uint layerCount;
+			public uint x;
+			public uint y;
+			public uint z;
+			public uint w;
+			public uint h;
+			public uint d;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct BufferImageCopy
+		{
+			public uint bufferOffset;
+			public uint bufferStride;
+			public uint bufferImageHeight;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct BufferCopy
+		{
+			public uint srcOffset;
+			public uint dstOffset;
+			public uint size;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -469,7 +496,7 @@ namespace RefreshCS
 			public IntPtr shaderModule;
 			[MarshalAs(UnmanagedType.LPStr)]
 			public string entryPointName;
-			public ulong uniformBufferSize;
+			public uint uniformBufferSize;
 			public uint samplerBindingCount;
 		}
 
@@ -479,7 +506,7 @@ namespace RefreshCS
 			public IntPtr shaderModule;
 			[MarshalAs(UnmanagedType.LPStr)]
 			public string entryPointName;
-			public ulong uniformBufferSize;
+			public uint uniformBufferSize;
 			public uint bufferBindingCount;
 			public uint imageBindingCount;
 		}
@@ -511,8 +538,7 @@ namespace RefreshCS
 			public CompareOp compareOp;
 			public byte depthBoundsTestEnable;
 			public byte stencilTestEnable;
-			public StencilOpState frontStencilState;
-			public StencilOpState backStencilState;
+			public StencilOpState stencilState;
 			public float minDepthBounds;
 			public float maxDepthBounds;
 		}
@@ -599,64 +625,7 @@ namespace RefreshCS
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void Refresh_DestroyDevice(IntPtr device);
 
-		/* Drawing */
-
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void Refresh_DrawInstancedPrimitives(
-			IntPtr device,
-			IntPtr commandBuffer,
-			uint baseVertex,
-			uint startIndex,
-			uint primitiveCount,
-			uint instanceCount,
-			uint vertexParamOffset,
-			uint fragmentParamOffset
-		);
-
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void Refresh_DrawIndexedPrimitives(
-			IntPtr device,
-			IntPtr commandBuffer,
-			uint baseVertex,
-			uint startIndex,
-			uint primitiveCount,
-			uint vertexParamOffset,
-			uint fragmentParamOffset
-		);
-
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void Refresh_DrawPrimitives(
-			IntPtr device,
-			IntPtr commandBuffer,
-			uint vertexStart,
-			uint primitiveCount,
-			uint vertexParamOffset,
-			uint fragmentParamOffset
-		);
-
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void Refresh_DrawPrimitivesIndirect(
-			IntPtr device,
-			IntPtr commandBuffer,
-			IntPtr buffer,
-			uint offsetInBytes,
-			uint drawCount,
-			uint stride,
-			uint vertexParamOffset,
-			uint fragmentParamOffset
-		);
-
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void Refresh_DispatchCompute(
-			IntPtr device,
-			IntPtr commandBuffer,
-			uint groupCountX,
-			uint groupCountY,
-			uint groupCountZ,
-			uint computeParamOffset
-		);
-
-		/* Creates */
+		/* State Creation */
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr Refresh_CreateComputePipeline(
@@ -689,100 +658,16 @@ namespace RefreshCS
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr Refresh_CreateBuffer(
+		public static extern IntPtr Refresh_CreateGpuBuffer(
 			IntPtr device,
 			BufferUsageFlags usageFlags,
 			uint sizeInBytes
 		);
 
-		/* Setters */
-
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void Refresh_SetTextureData(
+		public static extern IntPtr Refresh_CreateCpuBuffer(
 			IntPtr device,
-			IntPtr commandBuffer,
-			in TextureSlice textureSlice,
-			IntPtr data,
-			uint dataLengthInBytes
-		);
-
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void Refresh_SetTextureDataYUV(
-			IntPtr device,
-			IntPtr commandBuffer,
-			IntPtr y,
-			IntPtr u,
-			IntPtr v,
-			uint yWidth,
-			uint yHeight,
-			uint uvWidth,
-			uint uvHeight,
-			IntPtr yDataPtr,
-			IntPtr uDataPtr,
-			IntPtr vDataPtr,
-			uint yDataLength,
-			uint uvDataLength,
-			uint yStride,
-			uint uvStride
-		);
-
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void Refresh_CopyTextureToTexture(
-			IntPtr device,
-			IntPtr commandBuffer,
-			in TextureSlice sourceTextureSlice,
-			in TextureSlice destinationTextureSlice,
-			Filter filter
-		);
-
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void Refresh_CopyTextureToBuffer(
-			IntPtr device,
-			IntPtr commandBuffer,
-			in TextureSlice textureSlice,
-			IntPtr buffer
-		);
-
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void Refresh_GetBufferData(
-			IntPtr device,
-			IntPtr buffer,
-			IntPtr data,
-			uint dataLengthInBytes
-		);
-
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void Refresh_SetBufferData(
-			IntPtr device,
-			IntPtr commandBuffer,
-			IntPtr buffer,
-			uint offsetInBytes,
-			IntPtr data,
-			uint dataLengthInBytes
-		);
-
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern uint Refresh_PushVertexShaderUniforms(
-			IntPtr device,
-			IntPtr commandBuffer,
-			IntPtr data,
-			uint dataLengthInBytes
-		);
-
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern uint Refresh_PushFragmentShaderUniforms(
-			IntPtr device,
-			IntPtr commandBuffer,
-			IntPtr data,
-			uint dataLengthInBytes
-		);
-
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern uint Refresh_PushComputeShaderUniforms(
-			IntPtr device,
-			IntPtr commandBuffer,
-			IntPtr data,
-			uint dataLengthInBytes
+			uint sizeInBytes
 		);
 
 		/* Disposal */
@@ -800,7 +685,13 @@ namespace RefreshCS
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void Refresh_QueueDestroyBuffer(
+		public static extern void Refresh_QueueDestroyGpuBuffer(
+			IntPtr device,
+			IntPtr buffer
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void Refresh_QueueDestroyCpuBuffer(
 			IntPtr device,
 			IntPtr buffer
 		);
@@ -841,12 +732,6 @@ namespace RefreshCS
 			ColorAttachmentInfo* colorAttachmentInfos,
 			uint colorAttachmentCount,
 			DepthStencilAttachmentInfo* depthStencilAttachmentInfo /* can be NULL */
-		);
-
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void Refresh_EndRenderPass(
-			IntPtr device,
-			IntPtr commandBuffer
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -906,6 +791,73 @@ namespace RefreshCS
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void Refresh_PushVertexShaderUniforms(
+			IntPtr device,
+			IntPtr commandBuffer,
+			IntPtr data,
+			uint dataLengthInBytes
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void Refresh_PushFragmentShaderUniforms(
+			IntPtr device,
+			IntPtr commandBuffer,
+			IntPtr data,
+			uint dataLengthInBytes
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void Refresh_DrawInstancedPrimitives(
+			IntPtr device,
+			IntPtr commandBuffer,
+			uint baseVertex,
+			uint startIndex,
+			uint primitiveCount,
+			uint instanceCount
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void Refresh_DrawIndexedPrimitives(
+			IntPtr device,
+			IntPtr commandBuffer,
+			uint baseVertex,
+			uint startIndex,
+			uint primitiveCount
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void Refresh_DrawPrimitives(
+			IntPtr device,
+			IntPtr commandBuffer,
+			uint vertexStart,
+			uint primitiveCount
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void Refresh_DrawPrimitivesIndirect(
+			IntPtr device,
+			IntPtr commandBuffer,
+			IntPtr buffer,
+			uint offsetInBytes,
+			uint drawCount,
+			uint stride
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void Refresh_EndRenderPass(
+			IntPtr device,
+			IntPtr commandBuffer
+		);
+
+		/* Compute Pass */
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void Refresh_BeginComputePass(
+			IntPtr device,
+			IntPtr commandBuffer
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void Refresh_BindComputePipeline(
 			IntPtr device,
 			IntPtr commandBuffer,
@@ -923,7 +875,142 @@ namespace RefreshCS
 		public static extern void Refresh_BindComputeTextures(
 			IntPtr device,
 			IntPtr commandBuffer,
-			IntPtr pTextures
+			IntPtr pTextures,
+			IntPtr pLevels
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void Refresh_PushComputeShaderUniforms(
+			IntPtr device,
+			IntPtr commandBuffer,
+			IntPtr data,
+			uint dataLengthInBytes
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void Refresh_DispatchCompute(
+			IntPtr device,
+			IntPtr commandBuffer,
+			uint groupCountX,
+			uint groupCountY,
+			uint groupCountZ
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void Refresh_EndComputePass(
+			IntPtr device,
+			IntPtr commandBuffer
+		);
+
+		/* CpuBuffer Set/Get */
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern IntPtr Refresh_SetData(
+			IntPtr device,
+			IntPtr data,
+			IntPtr cpuBuffer,
+			in BufferCopy copyParams,
+			SetDataOptions option
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void Refresh_GetData(
+			IntPtr device,
+			IntPtr cpuBuffer,
+			IntPtr data,
+			in BufferCopy copyParams
+		);
+
+		/* Copy Pass */
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void Refresh_BeginCopyPass(
+			IntPtr device,
+			IntPtr commandBuffer
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void Refresh_UploadToTexture(
+			IntPtr device,
+			IntPtr commandBuffer,
+			IntPtr cpuBuffer,
+			in TextureSlice textureSlice,
+			in BufferImageCopy copyParams
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void Refresh_UploadToBuffer(
+			IntPtr device,
+			IntPtr commandBuffer,
+			IntPtr cpuBuffer,
+			IntPtr gpuBuffer,
+			in BufferCopy copyParams
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void Refresh_DownloadFromTexture(
+			IntPtr device,
+			IntPtr commandBuffer,
+			in TextureSlice textureSlice,
+			IntPtr cpuBuffer,
+			in BufferImageCopy copyParams
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void Refresh_DownloadFromBuffer(
+			IntPtr device,
+			IntPtr commandBuffer,
+			IntPtr gpuBuffer,
+			IntPtr cpuBuffer,
+			in BufferCopy copyParams
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void Refresh_CopyTextureToTexture(
+			IntPtr device,
+			IntPtr commandBuffer,
+			in TextureSlice source,
+			in TextureSlice destination
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void Refresh_CopyTextureToBuffer(
+			IntPtr device,
+			IntPtr commandBuffer,
+			in TextureSlice textureSlice,
+			IntPtr gpuBuffer,
+			in BufferImageCopy copyParams
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void Refresh_CopyBufferToTexture(
+			IntPtr device,
+			IntPtr commandBuffer,
+			IntPtr gpuBuffer,
+			in TextureSlice textureSlice,
+			in BufferImageCopy bufferImageCopy
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void Refresh_CopyBufferToBuffer(
+			IntPtr device,
+			IntPtr commandBuffer,
+			IntPtr source,
+			IntPtr destination,
+			in BufferCopy copyParams
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void Refresh_GenerateMipmaps(
+			IntPtr device,
+			IntPtr commandBuffer,
+			IntPtr texture
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void Refresh_EndCopyPass(
+			IntPtr device,
+			IntPtr commandBuffer
 		);
 
 		/* Submission/Presentation */
@@ -1007,6 +1094,15 @@ namespace RefreshCS
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr Refresh_Image_Load(
+			IntPtr bufferPtr,
+			int bufferLength,
+			out int w,
+			out int h,
+			out int len
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern byte Refresh_Image_Info(
 			IntPtr bufferPtr,
 			int bufferLength,
 			out int w,
