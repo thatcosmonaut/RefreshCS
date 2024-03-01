@@ -314,7 +314,7 @@ namespace RefreshCS
 			Overwrite
 		}
 
-		public enum CopyOptions
+		public enum WriteOptions
 		{
 			SafeDiscard,
 			SafeOverwrite
@@ -592,7 +592,7 @@ namespace RefreshCS
 			public Vec4 clearColor;
 			public LoadOp loadOp;
 			public StoreOp storeOp;
-			public byte safeDiscard;
+			public WriteOptions writeOption;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -604,7 +604,35 @@ namespace RefreshCS
 			public StoreOp storeOp;
 			public LoadOp stencilLoadOp;
 			public StoreOp stencilStoreOp;
-			public byte safeDiscard;
+			public WriteOptions writeOption;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct BufferBinding
+		{
+			public IntPtr gpuBuffer;
+			public uint offset;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct TextureSamplerBinding
+		{
+			public IntPtr texture;
+			public IntPtr sampler;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct ComputeBufferBinding
+		{
+			public IntPtr gpuBuffer;
+			public WriteOptions writeOption;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct ComputeTextureBinding
+		{
+			public TextureSlice textureSlice;
+			public WriteOptions writeOption;
 		}
 
 		/* Logging */
@@ -766,38 +794,34 @@ namespace RefreshCS
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void Refresh_BindVertexBuffers(
+		public static extern unsafe void Refresh_BindVertexBuffers(
 			IntPtr device,
 			IntPtr commandBuffer,
 			uint firstBinding,
 			uint bindingCount,
-			IntPtr pBuffers,
-			IntPtr pOffsets
+			BufferBinding* pBindings
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void Refresh_BindIndexBuffer(
 			IntPtr device,
 			IntPtr commandBuffer,
-			IntPtr gpuBuffer,
-			uint offset,
+			in BufferBinding pBinding,
 			IndexElementSize indexElementSize
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void Refresh_BindVertexSamplers(
+		public static extern unsafe void Refresh_BindVertexSamplers(
 			IntPtr device,
 			IntPtr commandBuffer,
-			IntPtr pTextures,
-			IntPtr pSamplers
+			TextureSamplerBinding* pBindings
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void Refresh_BindFragmentSamplers(
+		public static extern unsafe void Refresh_BindFragmentSamplers(
 			IntPtr device,
 			IntPtr commandBuffer,
-			IntPtr pTextures,
-			IntPtr pSamplers
+			TextureSamplerBinding* pBindings
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -875,17 +899,17 @@ namespace RefreshCS
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void Refresh_BindComputeBuffers(
+		public static extern unsafe void Refresh_BindComputeBuffers(
 			IntPtr device,
 			IntPtr commandBuffer,
-			IntPtr pBuffers
+			ComputeBufferBinding* pBindings
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void Refresh_BindComputeTextures(
+		public static extern unsafe void Refresh_BindComputeTextures(
 			IntPtr device,
 			IntPtr commandBuffer,
-			IntPtr pTextureSlices
+			ComputeTextureBinding* pBindings
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -945,7 +969,7 @@ namespace RefreshCS
 			IntPtr transferBuffer,
 			in TextureRegion textureSlice,
 			in BufferImageCopy copyParams,
-			CopyOptions option
+			WriteOptions writeOption
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -955,7 +979,7 @@ namespace RefreshCS
 			IntPtr transferBuffer,
 			IntPtr gpuBuffer,
 			in BufferCopy copyParams,
-			CopyOptions option
+			WriteOptions writeOption
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -965,7 +989,7 @@ namespace RefreshCS
 			in TextureRegion textureSlice,
 			IntPtr transferBuffer,
 			in BufferImageCopy copyParams,
-			TransferOptions option
+			TransferOptions transferOption
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -975,7 +999,7 @@ namespace RefreshCS
 			IntPtr gpuBuffer,
 			IntPtr transferBuffer,
 			in BufferCopy copyParams,
-			TransferOptions option
+			TransferOptions transferOption
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -984,7 +1008,7 @@ namespace RefreshCS
 			IntPtr commandBuffer,
 			in TextureRegion source,
 			in TextureRegion destination,
-			CopyOptions option
+			WriteOptions writeOption
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -994,7 +1018,7 @@ namespace RefreshCS
 			in TextureRegion textureSlice,
 			IntPtr gpuBuffer,
 			in BufferImageCopy copyParams,
-			CopyOptions option
+			WriteOptions writeOption
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -1004,7 +1028,7 @@ namespace RefreshCS
 			IntPtr gpuBuffer,
 			in TextureRegion textureSlice,
 			in BufferImageCopy bufferImageCopy,
-			CopyOptions option
+			WriteOptions writeOption
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -1014,7 +1038,7 @@ namespace RefreshCS
 			IntPtr source,
 			IntPtr destination,
 			in BufferCopy copyParams,
-			CopyOptions option
+			WriteOptions writeOption
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
