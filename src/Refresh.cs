@@ -371,8 +371,13 @@ namespace RefreshCS
 		{
 			public IntPtr texture;
 			public uint mipLevel;
-			public uint baseLayer;
-			public uint layerCount;
+			public uint layer;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct TextureRegion
+		{
+			public TextureSlice textureSlice;
 			public uint x;
 			public uint y;
 			public uint z;
@@ -490,6 +495,7 @@ namespace RefreshCS
 			public uint height;
 			public uint depth;
 			public byte isCube;
+			public uint layerCount;
 			public uint levelCount;
 			public SampleCount sampleCount;
 			public TextureFormat format;
@@ -579,28 +585,26 @@ namespace RefreshCS
 			public fixed float blendConstants[4];
 		}
 
+		[StructLayout(LayoutKind.Sequential)]
 		public struct ColorAttachmentInfo
 		{
-			public IntPtr texture;
-			public uint depth;
-			public uint layer;
-			public uint level;
+			public TextureSlice textureSlice;
 			public Vec4 clearColor;
 			public LoadOp loadOp;
 			public StoreOp storeOp;
+			public byte safeDiscard;
 		}
 
+		[StructLayout(LayoutKind.Sequential)]
 		public struct DepthStencilAttachmentInfo
 		{
-			public IntPtr texture;
-			public uint depth;
-			public uint layer;
-			public uint level;
+			public TextureSlice textureSlice;
 			public DepthStencilValue depthStencilClearValue;
 			public LoadOp loadOp;
 			public StoreOp storeOp;
 			public LoadOp stencilLoadOp;
 			public StoreOp stencilStoreOp;
+			public byte safeDiscard;
 		}
 
 		/* Logging */
@@ -881,8 +885,7 @@ namespace RefreshCS
 		public static extern void Refresh_BindComputeTextures(
 			IntPtr device,
 			IntPtr commandBuffer,
-			IntPtr pTextures,
-			IntPtr pLevels
+			IntPtr pTextureSlices
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -940,7 +943,7 @@ namespace RefreshCS
 			IntPtr device,
 			IntPtr commandBuffer,
 			IntPtr transferBuffer,
-			in TextureSlice textureSlice,
+			in TextureRegion textureSlice,
 			in BufferImageCopy copyParams,
 			CopyOptions option
 		);
@@ -959,7 +962,7 @@ namespace RefreshCS
 		public static extern void Refresh_DownloadFromTexture(
 			IntPtr device,
 			IntPtr commandBuffer,
-			in TextureSlice textureSlice,
+			in TextureRegion textureSlice,
 			IntPtr transferBuffer,
 			in BufferImageCopy copyParams,
 			TransferOptions option
@@ -979,8 +982,8 @@ namespace RefreshCS
 		public static extern void Refresh_CopyTextureToTexture(
 			IntPtr device,
 			IntPtr commandBuffer,
-			in TextureSlice source,
-			in TextureSlice destination,
+			in TextureRegion source,
+			in TextureRegion destination,
 			CopyOptions option
 		);
 
@@ -988,7 +991,7 @@ namespace RefreshCS
 		public static extern void Refresh_CopyTextureToBuffer(
 			IntPtr device,
 			IntPtr commandBuffer,
-			in TextureSlice textureSlice,
+			in TextureRegion textureSlice,
 			IntPtr gpuBuffer,
 			in BufferImageCopy copyParams,
 			CopyOptions option
@@ -999,7 +1002,7 @@ namespace RefreshCS
 			IntPtr device,
 			IntPtr commandBuffer,
 			IntPtr gpuBuffer,
-			in TextureSlice textureSlice,
+			in TextureRegion textureSlice,
 			in BufferImageCopy bufferImageCopy,
 			CopyOptions option
 		);
