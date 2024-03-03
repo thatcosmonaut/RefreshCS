@@ -463,9 +463,6 @@ namespace RefreshCS
 			public StencilOp passOp;
 			public StencilOp depthFailOp;
 			public CompareOp compareOp;
-			public uint compareMask;
-			public uint writeMask;
-			public uint reference;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -550,7 +547,11 @@ namespace RefreshCS
 			public CompareOp compareOp;
 			public byte depthBoundsTestEnable;
 			public byte stencilTestEnable;
-			public StencilOpState stencilState;
+			public StencilOpState backStencilState;
+			public StencilOpState frontStencilState;
+			public uint compareMask;
+			public uint writeMask;
+			public uint reference;
 			public float minDepthBounds;
 			public float maxDepthBounds;
 		}
