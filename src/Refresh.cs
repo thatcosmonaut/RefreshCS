@@ -969,7 +969,7 @@ namespace RefreshCS
 			IntPtr device,
 			IntPtr commandBuffer,
 			IntPtr transferBuffer,
-			in TextureRegion textureSlice,
+			in TextureRegion textureRegion,
 			in BufferImageCopy copyParams,
 			WriteOptions writeOption
 		);
@@ -982,26 +982,6 @@ namespace RefreshCS
 			IntPtr gpuBuffer,
 			in BufferCopy copyParams,
 			WriteOptions writeOption
-		);
-
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void Refresh_DownloadFromTexture(
-			IntPtr device,
-			IntPtr commandBuffer,
-			in TextureRegion textureSlice,
-			IntPtr transferBuffer,
-			in BufferImageCopy copyParams,
-			TransferOptions transferOption
-		);
-
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void Refresh_DownloadFromBuffer(
-			IntPtr device,
-			IntPtr commandBuffer,
-			IntPtr gpuBuffer,
-			IntPtr transferBuffer,
-			in BufferCopy copyParams,
-			TransferOptions transferOption
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -1113,6 +1093,24 @@ namespace RefreshCS
 		public static extern void Refresh_ReleaseFence(
 			IntPtr device,
 			IntPtr fence
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void Refresh_DownloadFromTexture(
+			IntPtr device,
+			in TextureRegion textureRegion,
+			IntPtr transferBuffer,
+			in BufferImageCopy copyParams,
+			TransferOptions transferOption
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void Refresh_DownloadFromBuffer(
+			IntPtr device,
+			IntPtr gpuBuffer,
+			IntPtr transferBuffer,
+			in BufferCopy copyParams,
+			TransferOptions transferOption
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
