@@ -324,6 +324,7 @@ namespace RefreshCS
 		{
 			DontCare,
 			Vulkan,
+			D3D11,
 			PS5,
 			Invalid
 		}
@@ -1009,26 +1010,6 @@ namespace RefreshCS
 			IntPtr commandBuffer,
 			in TextureRegion source,
 			in TextureRegion destination,
-			WriteOptions writeOption
-		);
-
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void Refresh_CopyTextureToBuffer(
-			IntPtr device,
-			IntPtr commandBuffer,
-			in TextureRegion textureSlice,
-			IntPtr gpuBuffer,
-			in BufferImageCopy copyParams,
-			WriteOptions writeOption
-		);
-
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void Refresh_CopyBufferToTexture(
-			IntPtr device,
-			IntPtr commandBuffer,
-			IntPtr gpuBuffer,
-			in TextureRegion textureSlice,
-			in BufferImageCopy bufferImageCopy,
 			WriteOptions writeOption
 		);
 
