@@ -310,13 +310,13 @@ namespace RefreshCS
 
 		public enum TransferOptions
 		{
-			SafeDiscard,
+			Discard,
 			Overwrite
 		}
 
 		public enum WriteOptions
 		{
-			SafeDiscard,
+			Discard,
 			SafeOverwrite
 		}
 
