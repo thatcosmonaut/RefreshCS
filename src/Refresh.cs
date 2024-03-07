@@ -322,7 +322,6 @@ namespace RefreshCS
 
 		public enum Backend
 		{
-			DontCare,
 			Vulkan,
 			D3D11,
 			PS5,
@@ -652,8 +651,9 @@ namespace RefreshCS
 		/* Init/Quit */
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern Backend Refresh_SelectBackend(
-			Backend preferredBackend,
+		public static unsafe extern Backend Refresh_SelectBackend(
+			Backend* preferredBackends,
+			uint preferredBackendCount,
 			out uint flags
 		);
 
