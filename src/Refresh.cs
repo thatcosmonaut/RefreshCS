@@ -308,6 +308,12 @@ namespace RefreshCS
 			IntOpaqueWhite
 		}
 
+		public enum TransferUsage
+		{
+			Buffer,
+			Texture
+		}
+
 		public enum TransferOptions
 		{
 			Cycle,
@@ -707,6 +713,7 @@ namespace RefreshCS
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr Refresh_CreateTransferBuffer(
 			IntPtr device,
+			TransferUsage usage,
 			uint sizeInBytes
 		);
 
