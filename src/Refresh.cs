@@ -718,6 +718,22 @@ namespace RefreshCS
 			uint sizeInBytes
 		);
 
+		/* Debug Naming */
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void Refresh_SetGpuBufferName(
+			IntPtr device,
+			IntPtr buffer,
+			[MarshalAs(UnmanagedType.LPUTF8Str)] string text
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void Refresh_SetTextureName(
+			IntPtr device,
+			IntPtr texture,
+			[MarshalAs(UnmanagedType.LPUTF8Str)] string text
+		);
+
 		/* Disposal */
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
