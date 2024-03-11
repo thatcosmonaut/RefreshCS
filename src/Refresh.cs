@@ -317,13 +317,14 @@ namespace RefreshCS
 		public enum TransferOptions
 		{
 			Cycle,
-			Overwrite
+			Unsafe
 		}
 
 		public enum WriteOptions
 		{
 			Cycle,
-			SafeOverwrite
+			Unsafe,
+			Safe
 		}
 
 		public enum Backend
