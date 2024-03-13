@@ -877,15 +877,6 @@ namespace RefreshCS
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void Refresh_DrawIndexedPrimitives(
-			IntPtr device,
-			IntPtr commandBuffer,
-			uint baseVertex,
-			uint startIndex,
-			uint primitiveCount
-		);
-
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void Refresh_DrawPrimitives(
 			IntPtr device,
 			IntPtr commandBuffer,
